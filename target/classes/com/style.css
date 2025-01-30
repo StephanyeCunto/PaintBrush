@@ -1,0 +1,244 @@
+/* Design System Variables */
+.root {
+    /* Color Palette */
+    -fx-primary: #2563eb;
+    -fx-primary-light: #3b82f6;
+    -fx-primary-dark: #1d4ed8;
+    -fx-surface: #ffffff;
+    -fx-background: #f8fafc;
+    -fx-border: #e2e8f0;
+    
+    /* Typography */
+    -fx-font-family: 'Segoe UI', system;
+    -fx-background-color: -fx-background;
+}
+
+/* Modern Menu Bar */
+.menu-bar {
+    -fx-background-color: -fx-surface;
+    -fx-border-color: -fx-border;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 2px;
+}
+
+.menu {
+    -fx-padding: 3px 6px;
+    -fx-background-radius: 4px;
+    -fx-transition: background-color 0.2s;
+}
+
+.menu:hover {
+    -fx-background-color: derive(-fx-primary, 95%);
+}
+
+.menu-item {
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 4px;
+    -fx-transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+    -fx-background-color: derive(-fx-primary, 95%);
+}
+
+.menu-item:focused {
+    -fx-background-color: derive(-fx-primary, 90%);
+}
+
+/* Enhanced Toolbar */
+.main-toolbar {
+    -fx-background-color: -fx-surface;
+    -fx-padding: 8px;
+    -fx-spacing: 8px;
+    -fx-border-color: -fx-border;
+    -fx-border-width: 0 0 1 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 4, 0, 0, 2);
+}
+
+.toolbar-button {
+    -fx-background-color: transparent;
+    -fx-padding: 8px 12px;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s;
+}
+
+.toolbar-button:hover {
+    -fx-background-color: derive(-fx-primary, 95%);
+    -fx-effect: dropshadow(gaussian, rgba(37,99,235,0.1), 8, 0, 0, 2);
+}
+
+.toolbar-button:pressed {
+    -fx-background-color: derive(-fx-primary, 90%);
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+/* Sophisticated Color Palette */
+.color-palette {
+    -fx-background-color: -fx-surface;
+    -fx-padding: 10px;
+    -fx-spacing: 8px;
+    -fx-border-color: -fx-border;
+    -fx-border-width: 0 0 1 0;
+}
+
+.color-rect {
+    -fx-stroke: -fx-border;
+    -fx-stroke-width: 1.5;
+    -fx-cursor: hand;
+    -fx-arc-width: 8;
+    -fx-arc-height: 8;
+    -fx-transition: all 0.2s;
+}
+
+.color-rect:hover {
+    -fx-stroke: -fx-primary;
+    -fx-stroke-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(37,99,235,0.2), 8, 0, 0, 2);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.color-picker-advanced {
+    -fx-min-width: 60px;
+    -fx-min-height: 35px;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-border-color: -fx-border;
+    -fx-transition: all 0.2s;
+}
+
+.color-picker-advanced:hover {
+    -fx-border-color: -fx-primary;
+    -fx-effect: dropshadow(gaussian, rgba(37,99,235,0.15), 8, 0, 0, 2);
+}
+
+/* Professional Tools Panel */
+.tools-panel {
+    -fx-background-color: -fx-surface;
+    -fx-min-width: 100px;
+    -fx-padding: 10px;
+    -fx-spacing: 8px;
+    -fx-border-color: -fx-border;
+    -fx-border-width: 0 1 0 0;
+}
+
+.tool-button {
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+    -fx-min-width: 90px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s;
+}
+
+.tool-button:hover {
+    -fx-background-color: derive(-fx-primary, 95%);
+    -fx-effect: dropshadow(gaussian, rgba(37,99,235,0.1), 8, 0, 0, 2);
+}
+
+.tool-button:selected {
+    -fx-background-color: derive(-fx-primary, 90%);
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(37,99,235,0.2), 10, 0, 0, 2);
+}
+
+/* Enhanced Brush Settings */
+.brush-settings {
+    -fx-padding: 15px 10px;
+    -fx-spacing: 8px;
+    -fx-background-color: derive(-fx-surface, -2%);
+    -fx-background-radius: 8px;
+}
+
+.brush-settings .label {
+    -fx-text-fill: #1e293b;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.slider {
+    -fx-show-tick-labels: true;
+    -fx-show-tick-marks: true;
+    -fx-major-tick-unit: 10;
+    -fx-minor-tick-count: 5;
+}
+
+.slider .track {
+    -fx-background-color: derive(-fx-border, -5%);
+}
+
+.slider .thumb {
+    -fx-background-color: -fx-primary;
+    -fx-effect: dropshadow(gaussian, rgba(37,99,235,0.2), 4, 0, 0, 1);
+    -fx-transition: all 0.2s;
+}
+
+.slider .thumb:hover {
+    -fx-effect: dropshadow(gaussian, rgba(37,99,235,0.3), 8, 0, 0, 2);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+/* Modern Canvas Area */
+.scroll-pane {
+    -fx-background-color: derive(-fx-background, -2%);
+    -fx-padding: 15px;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: derive(-fx-background, -2%);
+}
+
+.scroll-pane .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar .thumb {
+    -fx-background-color: #cbd5e1;
+    -fx-background-radius: 10px;
+}
+
+.canvas {
+    -fx-background-color: -fx-surface;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 4);
+    -fx-background-radius: 8px;
+}
+
+/* Professional Status Bar */
+.status-bar {
+    -fx-background-color: -fx-surface;
+    -fx-border-color: -fx-border;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 6px 12px;
+}
+
+.status-bar .label {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 11px;
+}
+
+/* Refined Separators */
+.separator {
+    -fx-padding: 8px;
+}
+
+.separator .line {
+    -fx-border-color: -fx-border;
+    -fx-border-width: 0.5px;
+    -fx-opacity: 0.8;
+}
+
+/* Tooltip Enhancement */
+.tooltip {
+    -fx-background-color: #1e293b;
+    -fx-text-fill: white;
+    -fx-padding: 8px 12px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);
+}

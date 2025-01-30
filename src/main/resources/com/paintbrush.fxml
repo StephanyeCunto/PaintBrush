@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Tooltip?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@style.css"
+            styleClass="root">
+    
+    <!-- Barra de Menu Moderna -->
+    <top>
+        <VBox spacing="2">
+            <MenuBar styleClass="menu-bar">
+                <menus>
+                    <Menu text="Arquivo">
+                        <items>
+                            <MenuItem text="Novo" accelerator="Shortcut+N">
+                                <graphic>
+                                    <Region styleClass="menu-icon, new-icon"/>
+                                </graphic>
+                            </MenuItem>
+                            <MenuItem text="Abrir" accelerator="Shortcut+O">
+                                <graphic>
+                                    <Region styleClass="menu-icon, open-icon"/>
+                                </graphic>
+                            </MenuItem>
+                            <MenuItem text="Salvar" accelerator="Shortcut+S">
+                                <graphic>
+                                    <Region styleClass="menu-icon, save-icon"/>
+                                </graphic>
+                            </MenuItem>
+                            <SeparatorMenuItem/>
+                            <MenuItem text="Sair" accelerator="Shortcut+Q"/>
+                        </items>
+                    </Menu>
+                    <Menu text="Editar">
+                        <items>
+                            <MenuItem text="Desfazer" accelerator="Shortcut+Z"/>
+                            <MenuItem text="Refazer" accelerator="Shortcut+Y"/>
+                            <SeparatorMenuItem/>
+                            <MenuItem text="Recortar" accelerator="Shortcut+X"/>
+                            <MenuItem text="Copiar" accelerator="Shortcut+C"/>
+                            <MenuItem text="Colar" accelerator="Shortcut+V"/>
+                        </items>
+                    </Menu>
+                    <Menu text="Visualizar">
+                        <items>
+                            <CheckMenuItem text="Régua" selected="true"/>
+                            <CheckMenuItem text="Grade" selected="false"/>
+                        </items>
+                    </Menu>
+                    <Menu text="Ajuda">
+                        <items>
+                            <MenuItem text="Sobre"/>
+                        </items>
+                    </Menu>
+                </menus>
+            </MenuBar>
+
+            <!-- Barra de Ferramentas Principal -->
+            <ToolBar styleClass="main-toolbar">
+                <items>
+                    <!-- Grupo de Arquivo -->
+                    <Button styleClass="toolbar-button" text="Novo">
+                        <tooltip>
+                            <Tooltip text="Novo Arquivo (Ctrl+N)"/>
+                        </tooltip>
+                    </Button>
+                    <Button styleClass="toolbar-button" text="Abrir">
+                        <tooltip>
+                            <Tooltip text="Abrir Arquivo (Ctrl+O)"/>
+                        </tooltip>
+                    </Button>
+                    <Button styleClass="toolbar-button" text="Salvar">
+                        <tooltip>
+                            <Tooltip text="Salvar (Ctrl+S)"/>
+                        </tooltip>
+                    </Button>
+                    <Separator orientation="VERTICAL"/>
+                    
+                    <!-- Grupo de Edição -->
+                    <Button styleClass="toolbar-button" text="Desfazer">
+                        <tooltip>
+                            <Tooltip text="Desfazer (Ctrl+Z)"/>
+                        </tooltip>
+                    </Button>
+                    <Button styleClass="toolbar-button" text="Refazer">
+                        <tooltip>
+                            <Tooltip text="Refazer (Ctrl+Y)"/>
+                        </tooltip>
+                    </Button>
+                </items>
+            </ToolBar>
+
+            <!-- Paleta de Cores Melhorada -->
+            <HBox spacing="5" styleClass="color-palette">
+                <padding>
+                    <Insets top="5" right="5" bottom="5" left="5"/>
+                </padding>
+                <ColorPicker fx:id="colorPicker" styleClass="color-picker-advanced"/>
+                <Rectangle width="30" height="30" fill="black" styleClass="color-rect"/>
+                <Rectangle width="30" height="30" fill="white" styleClass="color-rect"/>
+                <Rectangle width="30" height="30" fill="#FF4444" styleClass="color-rect"/>
+                <Rectangle width="30" height="30" fill="#44FF44" styleClass="color-rect"/>
+                <Rectangle width="30" height="30" fill="#4444FF" styleClass="color-rect"/>
+                <Rectangle width="30" height="30" fill="#FFFF44" styleClass="color-rect"/>
+                <Rectangle width="30" height="30" fill="#FF44FF" styleClass="color-rect"/>
+                <Rectangle width="30" height="30" fill="#44FFFF" styleClass="color-rect"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Painel de Ferramentas Lateral Melhorado -->
+    <left>
+        <VBox styleClass="tools-panel" spacing="5">
+            <padding>
+                <Insets top="5" right="5" bottom="5" left="5"/>
+            </padding>
+            <ToggleButton text="Selecionar" styleClass="tool-button" selected="true">
+                <toggleGroup>
+                    <ToggleGroup fx:id="toolsGroup"/>
+                </toggleGroup>
+            </ToggleButton>
+            <ToggleButton text="Lápis" styleClass="tool-button" toggleGroup="$toolsGroup"/>
+            <ToggleButton text="Pincel" styleClass="tool-button" toggleGroup="$toolsGroup"/>
+            <ToggleButton text="Borracha" styleClass="tool-button" toggleGroup="$toolsGroup"/>
+            <Separator/>
+            <ToggleButton text="Linha" styleClass="tool-button" toggleGroup="$toolsGroup"/>
+            <ToggleButton text="Retângulo" styleClass="tool-button" toggleGroup="$toolsGroup"/>
+            <ToggleButton text="Elipse" styleClass="tool-button" toggleGroup="$toolsGroup"/>
+            <ToggleButton text="Texto" styleClass="tool-button" toggleGroup="$toolsGroup"/>
+            <Separator/>
+            <VBox spacing="2" styleClass="brush-settings">
+                <Label text="Espessura"/>
+                <Slider fx:id="thicknessSlider" min="1" max="50" value="1"/>
+                <Label text="Opacidade"/>
+                <Slider fx:id="opacitySlider" min="0" max="1" value="1"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- Área de Desenho com Scroll -->
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true">
+            <Canvas fx:id="drawingCanvas" width="1200" height="800"/>
+        </ScrollPane>
+    </center>
+
+    <!-- Barra de Status -->
+    <bottom>
+        <HBox styleClass="status-bar" spacing="10">
+            <padding>
+                <Insets top="2" right="5" bottom="2" left="5"/>
+            </padding>
+            <Label fx:id="coordinatesLabel" text="X: 0, Y: 0"/>
+            <Label fx:id="zoomLabel" text="Zoom: 100%"/>
+            <Label fx:id="toolLabel" text="Ferramenta: Selecionar"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="canvasSizeLabel" text="1200 x 800 px"/>
+        </HBox>
+    </bottom>
+</BorderPane>
