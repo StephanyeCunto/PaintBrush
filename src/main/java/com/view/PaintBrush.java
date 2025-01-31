@@ -3,6 +3,7 @@ package com.view;
 import com.models.Circulo;
 import com.models.Ponto;
 import com.models.Reta;
+import com.models.Retangulo;
 
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -94,6 +95,10 @@ public class PaintBrush {
                         gc.drawImage(canvasSnapshot, 0, 0);
                         drawCircle(startX, startY, event.getX(), event.getY());
                         break;
+                    case "Retângulo":
+                        gc.drawImage(canvasSnapshot, 0, 0);
+                        drawRectangle(startX, startY, event.getX(), event.getY());
+                        break;
                 }
             }
         });
@@ -114,6 +119,10 @@ public class PaintBrush {
                         case "Circulo":
                             gc.drawImage(canvasSnapshot, 0, 0);
                             drawCircle(startX, startY, event.getX(), event.getY());
+                            break;
+                        case "Retângulo":
+                            gc.drawImage(canvasSnapshot, 0, 0);
+                            drawRectangle(startX, startY, event.getX(), event.getY());
                             break;
                     }
                 }
@@ -168,5 +177,14 @@ public class PaintBrush {
         double raio = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
         Circulo circulo = new Circulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness, "Circulo", raio);
         circulo.desenhar(gc);
+    }
+
+    private void drawRectangle(double x1, double y1, double x2, double y2) {
+        double thickness = thicknessSlider.getValue();
+        double base = Math.abs(x2 - x1);
+        double altura = Math.abs(y2 - y1);
+        Ponto ponto = new Ponto(x1, y1, currentColor, thickness);
+        Retangulo retangulo = new Retangulo(ponto, currentColor, thickness, base, altura);
+        retangulo.desenhar(gc);
     }
 }
