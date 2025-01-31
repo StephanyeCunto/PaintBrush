@@ -91,7 +91,7 @@
                 <Insets top="5" right="5" bottom="5" left="5" />
             </padding>
             <ColorPicker fx:id="colorPicker" styleClass="color-picker-advanced" />
-            <ToggleButton styleClass="color-button" fx:id="blackColorBtn">
+            <ToggleButton styleClass="color-button" fx:id="blackColorBtn" selected="true">
                 <toggleGroup>
                     <ToggleGroup fx:id="colorToggleGroup" />
                 </toggleGroup>

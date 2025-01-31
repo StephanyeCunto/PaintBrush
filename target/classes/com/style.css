@@ -229,7 +229,7 @@
 }
 
 .canvas-container {
-    -fx-background-color: linear-gradient(to bottom, #f5f5f5, #e0e0e0);
+    -fx-background-color:  #e0e0e0;
     -fx-border-color: #a0a0a0;
     -fx-border-width: 2px;
     -fx-border-radius: 8px;
