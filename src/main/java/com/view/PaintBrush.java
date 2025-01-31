@@ -1,5 +1,6 @@
 package com.view;
 
+import com.models.Circulo;
 import com.models.Ponto;
 import com.models.Reta;
 
@@ -89,6 +90,10 @@ public class PaintBrush {
                     case "Borracha":
                         drawPoint(event.getX(), event.getY());
                         break;
+                    case "Circulo":
+                        gc.drawImage(canvasSnapshot, 0, 0);
+                        drawCircle(startX, startY, event.getX(), event.getY());
+                        break;
                 }
             }
         });
@@ -105,6 +110,10 @@ public class PaintBrush {
                         case "Lápis":
                         case "Borracha":
                             drawPoint(event.getX(), event.getY());
+                            break;
+                        case "Circulo":
+                            gc.drawImage(canvasSnapshot, 0, 0);
+                            drawCircle(startX, startY, event.getX(), event.getY());
                             break;
                     }
                 }
@@ -152,5 +161,12 @@ public class PaintBrush {
         double thickness = thicknessSlider.getValue();
         Reta reta = new Reta(x1, y1, x2, y2, currentColor, thickness);
         reta.desenhar(gc);
+    }
+
+    private void drawCircle(double x1, double y1, double x2, double y2) {
+        double thickness = thicknessSlider.getValue();
+        double raio = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        Circulo circulo = new Circulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness, "Circulo", raio);
+        circulo.desenhar(gc);
     }
 }

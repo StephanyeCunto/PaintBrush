@@ -12,20 +12,25 @@ public class Circulo extends D2 {
     }
 
     @Override
-    public double area(){
+    public double area() {
         return Math.PI * Math.pow(raio, 2);
     }
 
     @Override
-    public double perimetro(){
+    public double perimetro() {
         return 2 * Math.PI * raio;
     }
 
     @Override
-    public void desenhar(GraphicsContext gc){
-        gc.save(); 
-        gc.setFill(Color.web(super.getColor()));
-        gc.fillOval(super.getX() - super.getThickness()/2, super.getY() - super.getThickness()/2, super.getThickness(), super.getThickness());
-        gc.restore();    
+    public void desenhar(GraphicsContext gc) {
+        gc.save();
+        gc.setStroke(Color.web(super.getColor()));
+        gc.setLineWidth(super.getThickness());
+        double x = super.getX() - raio;
+        double y = super.getY() - raio;
+        double diameter = raio * 2;
+        gc.strokeOval(x, y, diameter, diameter);
+        gc.restore();
     }
+
 }
