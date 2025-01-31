@@ -2,6 +2,9 @@
 
 O **PaintBrush** é um projeto acadêmico que simula uma ferramenta de pintura digital, permitindo a criação e manipulação de formas geométricas em 2D e 3D. Desenvolvido em Java com JavaFX, o projeto oferece uma interface gráfica intuitiva para desenhar e calcular propriedades de formas como pontos, retas, círculos, retângulos, cilindros e pirâmides.
 
+[![Java](https://img.shields.io/badge/Java-17%2B-brightgreen)](https://www.oracle.com/java/)
+[![JavaFX](https://img.shields.io/badge/JavaFX-19%2B-blue)](https://openjfx.io/)
+[![wakatime](https://wakatime.com/badge/user/5a343522-23db-45ae-b20b-54655c392390/project/34a88cbe-b514-48b1-a919-c80c09189897.svg)](https://wakatime.com/badge/user/5a343522-23db-45ae-b20b-54655c392390/project/34a88cbe-b514-48b1-a919-c80c09189897)
 ---
 
 ## Funcionalidades Principais ✨
