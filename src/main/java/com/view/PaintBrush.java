@@ -1,7 +1,8 @@
-package com.controller;
+package com.view;
 
-import classes.Ponto;
-import classes.Reta;
+import com.models.Ponto;
+import com.models.Reta;
+
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

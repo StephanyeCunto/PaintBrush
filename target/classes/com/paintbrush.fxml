@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tooltip?>
-<GridPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@style.css" styleClass="root" fx:controller="com.controller.PaintBrush">
+<GridPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@style.css" styleClass="root" fx:controller="com.view.PaintBrush">
 
    <!-- <MenuBar styleClass="menu-bar">
                 <menus>

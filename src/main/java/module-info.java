@@ -4,8 +4,8 @@ module com {
     requires lombok;
 
     opens com to javafx.fxml;
-    opens com.controller;
+    opens com.view;
     
     exports com;
-    exports com.controller to javafx.fxml;
+    exports com.view to javafx.fxml;
 }

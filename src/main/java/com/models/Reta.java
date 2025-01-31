@@ -1,4 +1,4 @@
-package classes;
+package com.models;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
