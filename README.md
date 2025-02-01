@@ -74,8 +74,13 @@ classDiagram
         -x: double
         -y: double
         -cor: String
+         -espressura: doubel
         +desenhar(): void
     }
+
+class Spray{
+   +desenhar():void
+}
 
 class Borracha{
    +desenhar():void
@@ -138,6 +143,7 @@ class Borracha{
     Ponto <|-- D2
     Ponto <|-- D3
     Ponto <|-- Reta
+Ponto<|-- Spray
    Ponto<|-- Borracha
     D2 <|-- Circulo
     D2 <|-- Retangulo
