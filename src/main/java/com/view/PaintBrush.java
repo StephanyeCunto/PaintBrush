@@ -1,11 +1,6 @@
 package com.view;
 
-import com.models.Cilindro;
-import com.models.Circulo;
-import com.models.Piramide;
-import com.models.Ponto;
-import com.models.Reta;
-import com.models.Retangulo;
+import com.models.*;
 
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -30,8 +25,6 @@ public class PaintBrush {
     private String currentColor = "#000000";
     private String previousColor = "#000000";
     private double startX, startY;
-    private boolean isDrawing = false;
-    private boolean isErasing = false;
     private WritableImage canvasSnapshot;
     private final String BACKGROUND_COLOR = "#e0e0e0"; 
 
@@ -41,7 +34,6 @@ public class PaintBrush {
         gc.setFill(Color.web(BACKGROUND_COLOR));
         gc.fillRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
         setupColorPicker();
-        setupToolsGroup();
         setupCanvas();
     }
 
@@ -60,29 +52,14 @@ public class PaintBrush {
         });
     }
 
-    private void setupToolsGroup() {
-        toolsGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                handleToolChange((ToggleButton) newValue);
-            }
-        });
-    }
-
     private void setupCanvas() {
         drawingCanvas.setOnMousePressed(event -> {
             startX = event.getX();
             startY = event.getY();
-            isDrawing = true;
-            
             canvasSnapshot = drawingCanvas.snapshot(null, null);
-            
-            if (isErasing || ((ToggleButton) toolsGroup.getSelectedToggle()).getText().equals("Borracha")) {
-                drawPoint(event.getX(), event.getY());
-            }
         });
 
         drawingCanvas.setOnMouseDragged(event -> {
-            if (isDrawing) {
                 ToggleButton selectedTool = (ToggleButton) toolsGroup.getSelectedToggle();
                 switch (selectedTool.getText()) {
                     case "Linha":
@@ -90,8 +67,10 @@ public class PaintBrush {
                         drawLine(startX, startY, event.getX(), event.getY());
                         break;
                     case "Lápis":
-                    case "Borracha":
                         drawPoint(event.getX(), event.getY());
+                        break;
+                    case "Borracha":
+                        drawEraser(event.getX(), event.getY());
                         break;
                     case "Circulo":
                         gc.drawImage(canvasSnapshot, 0, 0);
@@ -110,11 +89,9 @@ public class PaintBrush {
                         drawPiramide(startX, startY, event.getX(), event.getY());
                         break;
                 }
-            }
         });
 
         drawingCanvas.setOnMouseReleased(event -> {
-            if (isDrawing) {
                 ToggleButton selectedTool = (ToggleButton) toolsGroup.getSelectedToggle();
                 if (selectedTool != null) {
                     switch (selectedTool.getText()) {
@@ -123,8 +100,10 @@ public class PaintBrush {
                             drawLine(startX, startY, event.getX(), event.getY());
                             break;
                         case "Lápis":
-                        case "Borracha":
                             drawPoint(event.getX(), event.getY());
+                            break;
+                        case "Borracha":
+                            drawEraser(event.getX(), event.getY());
                             break;
                         case "Circulo":
                             gc.drawImage(canvasSnapshot, 0, 0);
@@ -143,15 +122,12 @@ public class PaintBrush {
                             drawPiramide(startX, startY, event.getX(), event.getY());
                             break;
                     }
-                }
-                isDrawing = false;
                 canvasSnapshot = null;
             }
         });
     }
 
     private void updateColorFromToggle(ToggleButton button) {
-        if (!isErasing) {
             String buttonId = button.getId();
             switch (buttonId) {
                 case "blackColorBtn":   currentColor = "#000000"; break;
@@ -164,18 +140,6 @@ public class PaintBrush {
                 case "cyanColorBtn":    currentColor = "#44FFFF"; break;
             }
             previousColor = currentColor;
-        }
-    }
-
-    private void handleToolChange(ToggleButton newTool) {
-        if (newTool != null && newTool.getText().equals("Borracha")) {
-            previousColor = currentColor;
-            currentColor = BACKGROUND_COLOR;
-            isErasing = true;
-        } else if (isErasing) {
-            currentColor = previousColor;
-            isErasing = false;
-        }
     }
 
     private void drawPoint(double x, double y) {
@@ -215,14 +179,16 @@ public class PaintBrush {
 
     private void drawPiramide(double x1, double y1, double x2, double y2) {
         double thickness = thicknessSlider.getValue();
-        // Cálculo da base e da altura da pirâmide a partir dos pontos (x1, y1) e (x2, y2)
-        double base = Math.abs(x2 - x1);  // Distância horizontal (base da pirâmide)
-        double largura = Math.abs(y2 - y1); // Distância vertical (largura da pirâmide)
-        double profundidade = Math.abs(y2 - y1); // Profundidade para simulação da pirâmide (pode ser ajustado como desejado)
-    
-        // Criando a pirâmide com as dimensões ajustadas
+        double base = Math.abs(x2 - x1);  
+        double largura = Math.abs(y2 - y1); 
+        double profundidade = Math.abs(y2 - y1); 
         Piramide piramide = new Piramide(new Ponto(x1, y1, currentColor, thickness), base, largura, profundidade, currentColor, thickness);
-        piramide.desenhar(gc);  // Chamando o método de desenho da pirâmide
+        piramide.desenhar(gc);  
     }
     
+    private void drawEraser(double x, double y) {
+        double thickness = thicknessSlider.getValue();
+        Borracha borracha = new Borracha(x, y, thickness);
+        borracha.desenhar(gc);
+    }
 }

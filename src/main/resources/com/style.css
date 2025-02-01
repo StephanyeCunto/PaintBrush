@@ -9,6 +9,26 @@
     -fx-background-color: -fx-background;
 }
 
+/* Responsividade e ajustes de layout */
+@media screen and (max-width: 800px) {
+    .color-palette {
+        -fx-spacing: 4px;
+        -fx-padding: 8px;
+    }
+
+    .tools-panel {
+        -fx-spacing: 4px;
+    }
+
+    .canvas-container {
+        -fx-padding: 5px;
+    }
+
+    .status-bar {
+        -fx-padding: 4px 10px;
+    }
+}
+
 .menu-bar {
     -fx-background-color: -fx-surface;
     -fx-border-color: -fx-border;
@@ -195,7 +215,6 @@
     -fx-background-color: #cbd5e1;
     -fx-background-radius: 10px;
 }
-
 
 .status-bar {
     -fx-background-color: -fx-surface;
