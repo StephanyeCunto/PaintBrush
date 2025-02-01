@@ -148,6 +148,7 @@
         </ToggleButton>
         <ToggleButton text="Borracha" styleClass="tool-button" toggleGroup="$toolsGroup" />
         <ToggleButton text="Linha" styleClass="tool-button" toggleGroup="$toolsGroup" />
+        <ToggleButton text="Spray" styleClass="tool-button" toggleGroup="$toolsGroup" />
         <Separator />
         <ToggleButton text="Retângulo" styleClass="tool-button" toggleGroup="$toolsGroup" />
         <ToggleButton text="Circulo" styleClass="tool-button" toggleGroup="$toolsGroup" />

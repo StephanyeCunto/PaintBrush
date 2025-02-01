@@ -23,7 +23,6 @@ public class PaintBrush {
 
     private GraphicsContext gc;
     private String currentColor = "#000000";
-    private String previousColor = "#000000";
     private double startX, startY;
     private WritableImage canvasSnapshot;
     private final String BACKGROUND_COLOR = "#e0e0e0"; 
@@ -88,6 +87,9 @@ public class PaintBrush {
                         gc.drawImage(canvasSnapshot, 0, 0);
                         drawPiramide(startX, startY, event.getX(), event.getY());
                         break;
+                    case "Spray":
+                        drawSpray(event.getX(),event.getY());
+                        break;
                 }
         });
 
@@ -121,8 +123,22 @@ public class PaintBrush {
                             gc.drawImage(canvasSnapshot, 0, 0);
                             drawPiramide(startX, startY, event.getX(), event.getY());
                             break;
+                        case "Spray":
+                            drawSpray(event.getX(),event.getY());
+                            break;
                     }
                 canvasSnapshot = null;
+            }
+        });
+
+        drawingCanvas.setOnMousePressed(event->{
+            ToggleButton selectedTool = (ToggleButton) toolsGroup.getSelectedToggle();
+            if (selectedTool != null) {
+                switch (selectedTool.getText()) {
+                    case "Spray":
+                        drawSpray(event.getX(),event.getY());
+                        break;
+                }
             }
         });
     }
@@ -139,7 +155,6 @@ public class PaintBrush {
                 case "magentaColorBtn": currentColor = "#FF44FF"; break;
                 case "cyanColorBtn":    currentColor = "#44FFFF"; break;
             }
-            previousColor = currentColor;
     }
 
     private void drawPoint(double x, double y) {
@@ -190,5 +205,11 @@ public class PaintBrush {
         double thickness = thicknessSlider.getValue();
         Borracha borracha = new Borracha(x, y, thickness);
         borracha.desenhar(gc);
+    }
+
+    private void drawSpray(double x,double y){
+        double thickness = thicknessSlider.getValue();
+        Spray spray = new Spray(x, y, currentColor, thickness);
+        spray.desenhar(gc);
     }
 }

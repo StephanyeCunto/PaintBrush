@@ -7,7 +7,7 @@ public class Circulo extends D2 {
     private double raio;
 
     public Circulo(Ponto coordenada, String color, double thickness, String estrutura, double raio) {
-        super(coordenada, color, thickness, estrutura);
+        super(coordenada, color, thickness);
         this.raio = raio;
     }
 
