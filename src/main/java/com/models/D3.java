@@ -2,10 +2,8 @@ package com.models;
 
 import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public abstract class D3 extends Ponto {
     private double profundidade;
 

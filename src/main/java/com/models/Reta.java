@@ -3,9 +3,7 @@ package com.models;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
-import lombok.Setter;
 
-@Setter
 public class Reta extends Ponto {
     private double x1;
     private double y1;

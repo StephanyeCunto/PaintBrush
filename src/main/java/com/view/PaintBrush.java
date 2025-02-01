@@ -2,6 +2,7 @@ package com.view;
 
 import com.models.Cilindro;
 import com.models.Circulo;
+import com.models.Piramide;
 import com.models.Ponto;
 import com.models.Reta;
 import com.models.Retangulo;
@@ -104,6 +105,10 @@ public class PaintBrush {
                         gc.drawImage(canvasSnapshot, 0, 0);
                         drawCilindro(startX, startY, event.getX(), event.getY());
                         break;
+                    case "Pirâmide":
+                        gc.drawImage(canvasSnapshot, 0, 0);
+                        drawPiramide(startX, startY, event.getX(), event.getY());
+                        break;
                 }
             }
         });
@@ -132,6 +137,10 @@ public class PaintBrush {
                         case "Cilindro":
                             gc.drawImage(canvasSnapshot, 0, 0);
                             drawCilindro(startX, startY, event.getX(), event.getY());
+                            break;
+                        case "Pirâmide":
+                            gc.drawImage(canvasSnapshot, 0, 0);
+                            drawPiramide(startX, startY, event.getX(), event.getY());
                             break;
                     }
                 }
@@ -203,4 +212,17 @@ public class PaintBrush {
         Cilindro cilindro = new Cilindro(new Ponto(x1, y1, currentColor, thickness), diametro/2, profundidade, currentColor, thickness);
         cilindro.desenhar(gc);
     }
+
+    private void drawPiramide(double x1, double y1, double x2, double y2) {
+        double thickness = thicknessSlider.getValue();
+        // Cálculo da base e da altura da pirâmide a partir dos pontos (x1, y1) e (x2, y2)
+        double base = Math.abs(x2 - x1);  // Distância horizontal (base da pirâmide)
+        double largura = Math.abs(y2 - y1); // Distância vertical (largura da pirâmide)
+        double profundidade = Math.abs(y2 - y1); // Profundidade para simulação da pirâmide (pode ser ajustado como desejado)
+    
+        // Criando a pirâmide com as dimensões ajustadas
+        Piramide piramide = new Piramide(new Ponto(x1, y1, currentColor, thickness), base, largura, profundidade, currentColor, thickness);
+        piramide.desenhar(gc);  // Chamando o método de desenho da pirâmide
+    }
+    
 }

@@ -1,11 +1,9 @@
 package com.models;
 
-import lombok.Setter;
 import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
 
 @Getter
-@Setter
 public abstract class D2 extends Ponto{
     private Ponto coordenada;
     private String estrutura;
