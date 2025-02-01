@@ -1,9 +1,4 @@
-# Ignorar arquivos gerados pelo PMD
-pmd.xml
-pmd-report.html
-pmd-ruleset.xml
-pmd.log
-pmd/
-target/pmd/
-target/pmd.xml
-target/site
+paintbrush/target/pmd/
+paintbrush/target/pmd.xml
+paintbrush/target/site
+*.html
