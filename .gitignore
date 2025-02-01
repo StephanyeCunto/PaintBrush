@@ -1,3 +1,5 @@
+docs/
+*.html
 paintbrush/target/pmd/
 paintbrush/target/pmd.xml
 paintbrush/target/site
