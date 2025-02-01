@@ -5,7 +5,7 @@ pmd-ruleset.xml
 pmd.log
 pmd/
 target/pmd.xml
-PaintBrush/target/pmd/
-PaintBrush/target/pmd.xml
-PaintBrush/target/site
+target/pmd/
+target/pmd.xml
+target/site
 *.html
