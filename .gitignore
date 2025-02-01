@@ -7,5 +7,5 @@ pmd/
 target/pmd.xml
 target/pmd/
 target/pmd.xml
-target/site
+target/site/
 *.html
