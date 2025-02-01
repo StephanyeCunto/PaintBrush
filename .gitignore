@@ -4,4 +4,6 @@ pmd-report.html
 pmd-ruleset.xml
 pmd.log
 pmd/
-target/pmd-reports/
+target/pmd/
+target/pmd.xml
+target/site
