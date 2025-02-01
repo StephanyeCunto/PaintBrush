@@ -79,12 +79,10 @@ classDiagram
     }
 
 class Spray{
-   -coordenada: Ponto
    +desenhar():void
 }
 
 class Borracha{
-        -coordenada: Ponto
    +desenhar():void
 }
 
