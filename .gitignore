@@ -1,6 +1,6 @@
 docs/
 *.html
-paintbrush/target/pmd/
-paintbrush/target/pmd.xml
-paintbrush/target/site
+PaintBrush/target/pmd/
+PaintBrush/target/pmd.xml
+PaintBrush/target/site
 *.html
