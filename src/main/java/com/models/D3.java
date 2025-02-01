@@ -1,25 +1,23 @@
 package com.models;
 
-public class D3 extends Ponto {
+import javafx.scene.canvas.GraphicsContext;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public abstract class D3 extends Ponto {
     private double profundidade;
 
-    public D3(double x, double y, double z, String color, double thickness) {
-        super(x, y, color, thickness);
+    public D3(Ponto coordenada, String color, double thickness, double profundidade) {
+        super(coordenada.getX(), coordenada.getY(), color, thickness);
         this.profundidade = profundidade;
     }
 
-    public double area(){
-        return 0;
-    }
+    public abstract double volume();
 
-    public double volume(){
-        return 0;
-    }
-    
-    public double perimetro(){
-        return 0;
-    }
-    
-    public void desenhar(){}
-    
+    public abstract double areaSuperficial();
+
+    public abstract void desenhar(GraphicsContext gc);
+
 }

@@ -1,5 +1,6 @@
 package com.view;
 
+import com.models.Cilindro;
 import com.models.Circulo;
 import com.models.Ponto;
 import com.models.Reta;
@@ -61,7 +62,7 @@ public class PaintBrush {
     private void setupToolsGroup() {
         toolsGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                handleToolChange((ToggleButton) newValue, (ToggleButton) oldValue);
+                handleToolChange((ToggleButton) newValue);
             }
         });
     }
@@ -99,6 +100,10 @@ public class PaintBrush {
                         gc.drawImage(canvasSnapshot, 0, 0);
                         drawRectangle(startX, startY, event.getX(), event.getY());
                         break;
+                    case "Cilindro":
+                        gc.drawImage(canvasSnapshot, 0, 0);
+                        drawCilindro(startX, startY, event.getX(), event.getY());
+                        break;
                 }
             }
         });
@@ -123,6 +128,10 @@ public class PaintBrush {
                         case "Retângulo":
                             gc.drawImage(canvasSnapshot, 0, 0);
                             drawRectangle(startX, startY, event.getX(), event.getY());
+                            break;
+                        case "Cilindro":
+                            gc.drawImage(canvasSnapshot, 0, 0);
+                            drawCilindro(startX, startY, event.getX(), event.getY());
                             break;
                     }
                 }
@@ -149,7 +158,7 @@ public class PaintBrush {
         }
     }
 
-    private void handleToolChange(ToggleButton newTool, ToggleButton oldTool) {
+    private void handleToolChange(ToggleButton newTool) {
         if (newTool != null && newTool.getText().equals("Borracha")) {
             previousColor = currentColor;
             currentColor = BACKGROUND_COLOR;
@@ -186,5 +195,13 @@ public class PaintBrush {
         Ponto ponto = new Ponto(x1, y1, currentColor, thickness);
         Retangulo retangulo = new Retangulo(ponto, currentColor, thickness, base, altura);
         retangulo.desenhar(gc);
+    }
+
+    private void drawCilindro(double x1, double y1, double x2, double y2) {
+        double thickness = thicknessSlider.getValue();
+        double raio = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        Ponto ponto = new Ponto(x1, y1, currentColor, thickness);
+        Cilindro cilindro = new Cilindro(ponto, currentColor, thickness, raio, raio);
+        cilindro.desenhar(gc);
     }
 }

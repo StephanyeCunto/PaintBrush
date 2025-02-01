@@ -1,6 +1,7 @@
 package com.models;
 
 import lombok.Setter;
+import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
 
 @Getter
@@ -15,13 +16,9 @@ public abstract class D2 extends Ponto{
         this.estrutura = estrutura;
     }
 
-    public double area(){
-        return 0;
-    }
+    public abstract double area();
 
-    public double perimetro(){
-        return 0;
-    }
+    public abstract double perimetro();
 
-    public void desenhar(){}
+    public abstract void desenhar(GraphicsContext gc);
 }
