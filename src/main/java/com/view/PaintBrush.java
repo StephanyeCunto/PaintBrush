@@ -192,16 +192,15 @@ public class PaintBrush {
         double thickness = thicknessSlider.getValue();
         double base = Math.abs(x2 - x1);
         double altura = Math.abs(y2 - y1);
-        Ponto ponto = new Ponto(x1, y1, currentColor, thickness);
-        Retangulo retangulo = new Retangulo(ponto, currentColor, thickness, base, altura);
+        Retangulo retangulo = new Retangulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness, base, altura);
         retangulo.desenhar(gc);
     }
 
     private void drawCilindro(double x1, double y1, double x2, double y2) {
         double thickness = thicknessSlider.getValue();
-        double raio = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        Ponto ponto = new Ponto(x1, y1, currentColor, thickness);
-        Cilindro cilindro = new Cilindro(ponto, currentColor, thickness, raio, raio);
+        double diametro = Math.abs(x2 - x1);
+        double profundidade = Math.abs(y2 - y1);
+        Cilindro cilindro = new Cilindro(new Ponto(x1, y1, currentColor, thickness), diametro/2, profundidade, currentColor, thickness);
         cilindro.desenhar(gc);
     }
 }

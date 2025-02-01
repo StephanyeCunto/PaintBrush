@@ -3,51 +3,32 @@ package com.models;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Cilindro extends D3{
+public class Cilindro extends D3 {
     private double raio;
-
-    public Cilindro(Ponto coordenada, String color, double thickness, double raio, double profundidade) {
-        super(coordenada, color, thickness,  profundidade);
+    
+    public Cilindro(Ponto coordenada, double raio, double profundidade, String color, double thickness) {
+        super(coordenada, color, thickness, profundidade);
         this.raio = raio;
     }
 
     @Override
     public double volume() {
-        return Math.PI * Math.pow(raio, 2) * getProfundidade();
+        return Math.PI * Math.pow(raio / 2, 2) * getProfundidade();
     }
 
     @Override
     public double areaSuperficial() {
-        return 2 * Math.PI * raio * (raio + getProfundidade());
+        return 2 * Math.PI * Math.pow(raio , 2) + 2 * Math.PI * (raio ) * getProfundidade();
     }
-
-    @Override
+    
     public void desenhar(GraphicsContext gc) {
         gc.save();
-        
-        double x = getX();
-        double y = getY();
-        double altura = getProfundidade();
-        double largura = 2 * raio;
-        double ovalAltura = raio / 2; 
-        
-        gc.setFill(Color.web(getColor()));
-    
-        gc.setFill(Color.web(getColor()).darker());
-        gc.fillOval(x - raio, y + altura - ovalAltura / 2, largura, ovalAltura);
-    
-        gc.setFill(Color.web(getColor()));
-        gc.fillRect(x - raio, y, largura, altura);
-    
-        gc.setStroke(Color.web(getColor()).darker());
-        gc.strokeRect(x - raio, y, largura, altura);
-    
-        gc.setFill(Color.web(getColor()).brighter());
-        gc.fillOval(x - raio, y - ovalAltura / 2, largura, ovalAltura);
-        gc.setStroke(Color.web(getColor()).darker());
-        gc.strokeOval(x - raio, y - ovalAltura / 2, largura, ovalAltura);
-        
+        gc.setLineWidth(getThickness());
+        gc.setStroke(Color.web(getColor()));
+        gc.strokeOval(getX(), getY() - raio/4, raio, raio/2);
+        gc.strokeLine(getX(), getY(), getX(), getY() + getProfundidade());
+        gc.strokeLine(getX() + raio, getY(), getX() + raio, getY() + getProfundidade());
+        gc.strokeOval(getX(), getY() + getProfundidade() - raio/4, raio, raio/2); 
         gc.restore();
     }
-    
 }
