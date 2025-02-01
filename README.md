@@ -23,21 +23,27 @@
 
 O **PaintBrush** oferece uma série de funcionalidades interativas e automáticas para trabalhar com formas geométricas. As funcionalidades estão divididas em duas principais categorias: **2D** e **3D**.
 
-### **Formas 2D**
+### **Formas 1D**
 1. **Ponto**
    - Desenho de um ponto na tela com coordenadas (x, y).
    - O ponto pode ter a cor alterada e pode ser movido interativamente na interface gráfica.
 
-2. **Reta**
+2. **Borracha**
+   - A borracha é uma forma 2D interativa que pode apagar outras formas na tela.
+   - O tamanho da borracha pode ser ajustado, e ela pode apagar uma área específica ao ser movida sobre as formas desenhadas.
+     
+3. **Reta**
    - Desenha uma reta entre dois pontos específicos.
    - A reta pode ter sua espessura e cor alteradas.
    - Cálculos automáticos de comprimento da reta.
 
-3. **Círculo**
+### **Formas 2D**
+
+1. **Círculo**
    - Desenho de um círculo baseado no raio e no centro.
    - Cálculos automáticos de área e perímetro do círculo.
 
-4. **Retângulo**
+2. **Retângulo**
    - Desenha um retângulo a partir das coordenadas de dois pontos diagonais.
    - Calcula automaticamente a área e o perímetro.
 
@@ -65,11 +71,15 @@ O **PaintBrush** segue uma arquitetura orientada a objetos robusta, com classes 
 ```mermaid
 classDiagram
     class Ponto {
-        +x: double
-        +y: double
-        +cor: String
+        -x: double
+        -y: double
+        -cor: String
         +desenhar(): void
     }
+
+class Borracha{
+   +desenhar():void
+}
 
     class D2 {
         -coordenada: Ponto
@@ -88,28 +98,28 @@ classDiagram
     }
 
     class Reta {
-        +x1: double
-        +y1: double
+        -x1: double
+        -y1: double
         +desenhar(): void
     }
 
     class Circulo {
-        +raio: double
+        -raio: double
         +area(): double
         +perimetro(): double
         +desenhar(): void
     }
 
     class Retangulo {
-        +base: double
-        +largura: double
+        =base: double
+        -largura: double
         +area(): double
         +perimetro(): double
         +desenhar(): void
     }
 
     class Cilindro {
-        +raio: double
+        -raio: double
         +area(): double
         +volume(): double
         +perimetro(): double
@@ -117,8 +127,8 @@ classDiagram
     }
 
     class Piramide {
-        +base: double
-        +largura: double
+        -base: double
+        -largura: double
         +area(): double
         +volume(): double
         +perimetro(): double
@@ -128,6 +138,7 @@ classDiagram
     Ponto <|-- D2
     Ponto <|-- D3
     Ponto <|-- Reta
+   Ponto<|-- Borracha
     D2 <|-- Circulo
     D2 <|-- Retangulo
     D3 <|-- Cilindro
