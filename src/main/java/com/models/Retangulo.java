@@ -35,8 +35,8 @@ public class Retangulo extends D2{
             gc.setLineWidth(1);
             String areaText = String.format("Area: %.2f px²", area());
             String perimetroText = String.format("Perimetro: %.2f px", perimetro());
-            gc.strokeText(areaText, super.getX() + base + 15, super.getY() + (base/2));
-            gc.strokeText(perimetroText, super.getX() + base + 15, super.getY() + (base/2) + 15);
+            gc.strokeText(areaText, super.getX() + base + 15, super.getY()+15);
+            gc.strokeText(perimetroText, super.getX() + base + 15, super.getY() +30);
         }
     }
 }

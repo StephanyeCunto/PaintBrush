@@ -70,85 +70,138 @@ O **PaintBrush** segue uma arquitetura orientada a objetos robusta, com classes 
 
 ```mermaid
 classDiagram
-    class Ponto {
-        -x: double
-        -y: double
-        -cor: String
-         -espressura: doubel
-        +desenhar(): void
+    %% Agrupamento de classes
+    class PaintBrush {
+        -Canvas drawingCanvas
+        -Slider thicknessSlider
+        -ToggleGroup toolsGroup
+        -ToggleGroup colorToggleGroup
+        -ColorPicker colorPicker
+        -VBox brushSettings
+        -VBox shapeSettings
+        -CheckBox area
+        -ToggleGroup colorToggleGroup2D
+        -ColorPicker colorPicker2D
+        -CheckBox fillShape
+        -GraphicsContext gc
+        -String currentColor
+        -String currentColor2D
+        -double startX
+        -double startY
+        -WritableImage canvasSnapshot
+        -String BACKGROUND_COLOR
+        +void initialize()
+        -void setupColorPicker(ToggleGroup, ColorPicker, java.util.function.Consumer)
+        -void setupCanvas()
+        -void handleMouseAction(javafx.scene.input.MouseEvent, boolean)
+        -void drawShape(String, double, double, boolean)
+        -void updateColorFromToggle(ToggleButton, java.util.function.Consumer)
+        -void drawPoint(double, double)
+        -void drawLine(double, double, double, double)
+        -void drawCircle(double, double, double, double)
+        -void drawRectangle(double, double, double, double)
+        -void drawCilindro(double, double, double, double)
+        -void drawPiramide(double, double, double, double)
+        -void drawEraser(double, double)
+        -void drawSpray(double, double)
+        -void setupVisibilityForSettings()
     }
 
-class Spray{
-   +desenhar():void
-}
-
-class Borracha{
-   +desenhar():void
-}
-
-    class D2 {
-        -colorPrenchimento: String
-        -exibirArea: boolean
-        #area(): double
-        #perimetro(): double
-        +desenhar(): void
-    }
-
-    class D3 {
-        -profundidade: double
-        #area(): double
-        #volume(): double
-        #perimetro(): double
-        +desenhar(): void
-    }
-
-    class Reta {
-        -x1: double
-        -y1: double
-        +desenhar(): void
-    }
-
-    class Circulo {
-        -raio: double
-        #area(): double
-        #perimetro(): double
-        +desenhar(): void
-    }
-
-    class Retangulo {
-        -base: double
-        -largura: double
-        #area(): double
-        #perimetro(): double
-        +desenhar(): void
+    class Borracha {
+        -double x
+        -double y
+        -double thickness
+        +desenhar(GraphicsContext gc)
     }
 
     class Cilindro {
-        -raio: double
-        #area(): double
-        #volume(): double
-        #perimetro(): double
-        +desenhar(): void
+        -double raio
+        #double volume()
+        #double areaSuperficial()
+        #double perimetro()
+        +desenhar(GraphicsContext gc)
+    }
+
+    class Circulo {
+        -double raio
+        #double area()
+        #double perimetro()
+        +desenhar(GraphicsContext gc)
+    }
+
+    class D2 {
+        -String colorPreenchimento
+         -boolean exibirArea
+        #double area()
+        #double perimetro()
+        +desenhar(GraphicsContext gc)
+    }
+
+    class D3 {
+        -double profundidade
+        #double volume()
+        #double areaSuperficial()
+        #double perimetro()
+        +desenhar(GraphicsContext gc)
+    }
+
+    class Ponto {
+        -double x
+        -double y
+        -String color
+        -double thickness
+        +getX()
+        +getY()
+        +getColor()
+        +getThickness()
     }
 
     class Piramide {
-        -base: double
-        -largura: double
-        #area(): double
-        #volume(): double
-        #perimetro(): double
-        +desenhar(): void
+        -double base
+        -double largura
+        #double volume()
+        #double areaSuperficial()
+        #double perimetro()
+        +desenhar(GraphicsContext gc)
     }
 
-    Ponto <|-- D2
-    Ponto <|-- D3
-    Ponto <|-- Reta
-Ponto<|-- Spray
-   Ponto<|-- Borracha
-    D2 <|-- Circulo
-    D2 <|-- Retangulo
-    D3 <|-- Cilindro
-    D3 <|-- Piramide
+    class Reta {
+        -double x1
+        -double y1
+        +desenhar(GraphicsContext gc)
+    }
+
+    class Retangulo {
+        -double base
+        -double altura
+        #double area()
+        #double perimetro()
+        +desenhar(GraphicsContext gc)
+    }
+
+    class Spray {
+        +desenhar(GraphicsContext gc)
+    }
+
+    %% Relacionamentos
+    PaintBrush --> Ponto : utiliza
+    PaintBrush --> Reta : utiliza
+    PaintBrush --> Circulo : utiliza
+    PaintBrush --> Retangulo : utiliza
+    PaintBrush --> Cilindro : utiliza
+    PaintBrush --> Piramide : utiliza
+    PaintBrush --> Borracha : utiliza
+    PaintBrush --> Spray : utiliza
+
+    Borracha --|> Ponto
+    Cilindro --|> D3
+    Circulo --|> D2
+    D2 --|> Ponto
+    D3 --|> Ponto
+    Piramide --|> D3
+    Reta --|> Ponto
+    Retangulo --|> D2
+    Spray --|> Ponto
 ```
 
 ---

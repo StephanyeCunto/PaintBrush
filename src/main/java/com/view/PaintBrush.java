@@ -1,7 +1,6 @@
 package com.view;
 
 import com.models.*;
-
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -46,40 +45,23 @@ public class PaintBrush {
         gc = drawingCanvas.getGraphicsContext2D();
         gc.setFill(Color.web(BACKGROUND_COLOR));
         gc.fillRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
-        setupColorPicker();
+        setupColorPicker(colorToggleGroup, colorPicker, (color) -> currentColor = color);
+        setupColorPicker(colorToggleGroup2D, colorPicker2D, (color) -> currentColor2D = color);
         setupCanvas();
-
-        brushSettings();
-        shapeSettings();
-        setupColorPicker2D();
+        setupVisibilityForSettings();
     }
 
-    private void setupColorPicker() {
-        colorToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+    private void setupColorPicker(ToggleGroup toggleGroup, ColorPicker colorPicker, java.util.function.Consumer<String> colorConsumer) {
+        toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                updateColorFromToggle((ToggleButton) newValue);
+                updateColorFromToggle((ToggleButton) newValue, colorConsumer);
             }
         });
 
         colorPicker.setOnAction(event -> {
-            currentColor = colorPicker.getValue().toString();
-            if (colorToggleGroup.getSelectedToggle() != null) {
-                colorToggleGroup.getSelectedToggle().setSelected(false);
-            }
-        });
-    }
-
-    private void setupColorPicker2D(){
-        colorToggleGroup2D.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                updateColorFromToggle2D((ToggleButton) newValue);
-            }
-        });
-
-        colorPicker2D.setOnAction(event -> {
-            currentColor2D = colorPicker2D.getValue().toString();
-            if (colorToggleGroup2D.getSelectedToggle() != null) {
-                colorToggleGroup2D.getSelectedToggle().setSelected(false);
+            colorConsumer.accept(colorPicker.getValue().toString());
+            if (toggleGroup.getSelectedToggle() != null) {
+                toggleGroup.getSelectedToggle().setSelected(false);
             }
         });
     }
@@ -89,145 +71,100 @@ public class PaintBrush {
             startX = event.getX();
             startY = event.getY();
             canvasSnapshot = drawingCanvas.snapshot(null, null);
-
-            ToggleButton selectedTool = (ToggleButton) toolsGroup.getSelectedToggle();
-            switch (selectedTool.getText()) {
-                case "Spray":
-                    drawSpray(event.getX(),event.getY());
-                    break;
-            }
+            handleMouseAction(event, true);
         });
 
-        drawingCanvas.setOnMouseDragged(event -> {
-                ToggleButton selectedTool = (ToggleButton) toolsGroup.getSelectedToggle();
-                switch (selectedTool.getText()) {
-                    case "Linha":
-                        gc.drawImage(canvasSnapshot, 0, 0);
-                        drawLine(startX, startY, event.getX(), event.getY());
-                        break;
-                    case "Lápis":
-                        drawPoint(event.getX(), event.getY());
-                        break;
-                    case "Borracha":
-                        drawEraser(event.getX(), event.getY());
-                        break;
-                    case "Circulo":
-                        gc.drawImage(canvasSnapshot, 0, 0);
-                        drawCircle(startX, startY, event.getX(), event.getY());
-                        break;
-                    case "Retângulo":
-                        gc.drawImage(canvasSnapshot, 0, 0);
-                        drawRectangle(startX, startY, event.getX(), event.getY());
-                        break;
-                    case "Cilindro":
-                        gc.drawImage(canvasSnapshot, 0, 0);
-                        drawCilindro(startX, startY, event.getX(), event.getY());
-                        break;
-                    case "Pirâmide":
-                        gc.drawImage(canvasSnapshot, 0, 0);
-                        drawPiramide(startX, startY, event.getX(), event.getY());
-                        break;
-                    case "Spray":
-                        drawSpray(event.getX(),event.getY());
-                        break;
-                }
-        });
+        drawingCanvas.setOnMouseDragged(event -> handleMouseAction(event, true));
 
         drawingCanvas.setOnMouseReleased(event -> {
-                ToggleButton selectedTool = (ToggleButton) toolsGroup.getSelectedToggle();
-                if (selectedTool != null) {
-                    switch (selectedTool.getText()) {
-                        case "Linha":
-                            gc.drawImage(canvasSnapshot, 0, 0);
-                            drawLine(startX, startY, event.getX(), event.getY());
-                            break;
-                        case "Lápis":
-                            drawPoint(event.getX(), event.getY());
-                            break;
-                        case "Borracha":
-                            drawEraser(event.getX(), event.getY());
-                            break;
-                        case "Circulo":
-                            gc.drawImage(canvasSnapshot, 0, 0);
-                            drawCircle(startX, startY, event.getX(), event.getY());
-                            break;
-                        case "Retângulo":
-                            gc.drawImage(canvasSnapshot, 0, 0);
-                            drawRectangle(startX, startY, event.getX(), event.getY());
-                            break;
-                        case "Cilindro":
-                            gc.drawImage(canvasSnapshot, 0, 0);
-                            drawCilindro(startX, startY, event.getX(), event.getY());
-                            break;
-                        case "Pirâmide":
-                            gc.drawImage(canvasSnapshot, 0, 0);
-                            drawPiramide(startX, startY, event.getX(), event.getY());
-                            break;
-                        case "Spray":
-                            drawSpray(event.getX(),event.getY());
-                            break;
-                    }
-                canvasSnapshot = null;
-            }
+            handleMouseAction(event, true);
+            canvasSnapshot = null;
         });
     }
 
-    private void updateColorFromToggle(ToggleButton button) {
-        String buttonId = button.getId();
-        switch (buttonId) {
-            case "blackColorBtn":
-                currentColor = "#000000";
+    private void handleMouseAction(javafx.scene.input.MouseEvent event, boolean isRelease) {
+        ToggleButton selectedTool = (ToggleButton) toolsGroup.getSelectedToggle();
+        String toolText = selectedTool.getText();
+       
+            drawShape(toolText, event.getX(), event.getY(), false);
+            if (toolText.equals("Lápis")) {
+                drawPoint(event.getX(), event.getY());
+            } else if (toolText.equals("Borracha")) {
+                drawEraser(event.getX(), event.getY());
+            } else if (toolText.equals("Spray")) {
+                drawSpray(event.getX(), event.getY());
+            }else{
+                drawShape(toolText, event.getX(), event.getY(), true);
+            }
+        
+    }
+
+    private void drawShape(String toolText, double x, double y, boolean isRelease) {
+        if (isRelease) {
+            gc.drawImage(canvasSnapshot, 0, 0);
+        }
+        switch (toolText) {
+            case "Linha":
+                if (isRelease) drawLine(startX, startY, x, y);
                 break;
-            case "whiteColorBtn":
-                currentColor = "#FFFFFF";
+            case "Lápis":
+                drawPoint(x, y);
                 break;
-            case "redColorBtn":
-                currentColor = "#FF4444";
+            case "Borracha":
+                drawEraser(x, y);
                 break;
-            case "greenColorBtn":
-                currentColor = "#44FF44";
+            case "Circulo":
+                if (isRelease) drawCircle(startX, startY, x, y);
                 break;
-            case "blueColorBtn":
-                currentColor = "#4444FF";
+            case "Retângulo":
+                if (isRelease) drawRectangle(startX, startY, x, y);
                 break;
-            case "yellowColorBtn":
-                currentColor = "#FFFF44";
+            case "Cilindro":
+                if (isRelease) drawCilindro(startX, startY, x, y);
                 break;
-            case "magentaColorBtn":
-                currentColor = "#FF44FF";
+            case "Pirâmide":
+                if (isRelease) drawPiramide(startX, startY, x, y);
                 break;
-            case "cyanColorBtn":
-                currentColor = "#44FFFF";
+            case "Spray":
+                drawSpray(x, y);
                 break;
         }
     }
 
-    private void updateColorFromToggle2D(ToggleButton button) {
+    private void updateColorFromToggle(ToggleButton button, java.util.function.Consumer<String> colorConsumer) {
         String buttonId = button.getId();
         switch (buttonId) {
+            case "blackColorBtn":
             case "blackColorBtn2D":
-                currentColor2D = "#000000";
+                colorConsumer.accept("#000000");
                 break;
+            case "whiteColorBtn":
             case "whiteColorBtn2D":
-                currentColor2D = "#FFFFFF";
+                colorConsumer.accept("#FFFFFF");
                 break;
+            case "redColorBtn":
             case "redColorBtn2D":
-                currentColor2D = "#FF4444";
+                colorConsumer.accept("#FF4444");
                 break;
+            case "greenColorBtn":
             case "greenColorBtn2D":
-                currentColor2D = "#44FF44";
+                colorConsumer.accept("#44FF44");
                 break;
+            case "blueColorBtn":
             case "blueColorBtn2D":
-                currentColor2D = "#4444FF";
+                colorConsumer.accept("#4444FF");
                 break;
+            case "yellowColorBtn":
             case "yellowColorBtn2D":
-                currentColor2D = "#FFFF44";
+                colorConsumer.accept("#FFFF44");
                 break;
+            case "magentaColorBtn":
             case "magentaColorBtn2D":
-                currentColor2D = "#FF44FF";
+                colorConsumer.accept("#FF44FF");
                 break;
+            case "cyanColorBtn":
             case "cyanColorBtn2D":
-                currentColor2D = "#44FFFF";
+                colorConsumer.accept("#44FFFF");
                 break;
         }
     }
@@ -247,30 +184,18 @@ public class PaintBrush {
     private void drawCircle(double x1, double y1, double x2, double y2) {
         double thickness = thicknessSlider.getValue();
         double raio = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        if(!fillShape.isSelected()){
-            Circulo circulo = new Circulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness,
-            raio, BACKGROUND_COLOR, area.selectedProperty().getValue());
-            circulo.desenhar(gc);
-        }else{
         Circulo circulo = new Circulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness,
-                raio, currentColor2D, area.selectedProperty().getValue());
-                circulo.desenhar(gc);
-        }
+                raio, fillShape.isSelected() ? currentColor2D :  "rgba(255, 0, 0, 0)", area.isSelected());
+        circulo.desenhar(gc);
     }
 
     private void drawRectangle(double x1, double y1, double x2, double y2) {
         double thickness = thicknessSlider.getValue();
         double base = Math.abs(x2 - x1);
         double altura = Math.abs(y2 - y1);
-        if(!fillShape.isSelected()){
-            Retangulo retangulo = new Retangulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness, base,
-            altura, "rgba(255, 0, 0, 0)", area.selectedProperty().getValue());
-            retangulo.desenhar(gc);
-        }else{
-        Retangulo retangulo = new Retangulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness, base,
-                altura, currentColor2D, area.selectedProperty().getValue());
+        Retangulo retangulo = new Retangulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness,
+                base, altura, fillShape.isSelected() ? currentColor2D : "rgba(255, 0, 0, 0)", area.isSelected());
         retangulo.desenhar(gc);
-        }
     }
 
     private void drawCilindro(double x1, double y1, double x2, double y2) {
@@ -278,7 +203,7 @@ public class PaintBrush {
         double diametro = Math.abs(x2 - x1);
         double profundidade = Math.abs(y2 - y1);
         Cilindro cilindro = new Cilindro(new Ponto(x1, y1, currentColor, thickness), diametro / 2, profundidade,
-                currentColor, thickness, area.selectedProperty().getValue());
+                currentColor, thickness, area.isSelected());
         cilindro.desenhar(gc);
     }
 
@@ -288,7 +213,7 @@ public class PaintBrush {
         double largura = Math.abs(y2 - y1);
         double profundidade = Math.abs(y2 - y1);
         Piramide piramide = new Piramide(new Ponto(x1, y1, currentColor, thickness), base, largura, profundidade,
-                currentColor, thickness, area.selectedProperty().getValue());
+                currentColor, thickness, area.isSelected());
         piramide.desenhar(gc);
     }
 
@@ -304,25 +229,12 @@ public class PaintBrush {
         spray.desenhar(gc);
     }
 
-    private void brushSettings(){
+    private void setupVisibilityForSettings() {
         toolsGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             ToggleButton selectedTool = (ToggleButton) newValue;
-            if(selectedTool.getText().equals("Circulo") || selectedTool.getText().equals("Retângulo")){
-                brushSettings.setVisible(true);
-            }else{
-                brushSettings.setVisible(false);
-            }
-        });
-    }
-
-    private void shapeSettings(){
-        toolsGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            ToggleButton selectedTool = (ToggleButton) newValue;
-            if(selectedTool.getText().equals("Cilindro") || selectedTool.getText().equals("Pirâmide") || selectedTool.getText().equals("Circulo") || selectedTool.getText().equals("Retângulo")){
-                shapeSettings.setVisible(true);
-            }else{
-                shapeSettings.setVisible(false);
-            }
+            boolean isShapeTool = selectedTool.getText().matches("Circulo|Retângulo|Cilindro|Pirâmide");
+            brushSettings.setVisible(isShapeTool);
+            shapeSettings.setVisible(isShapeTool);
         });
     }
 }
