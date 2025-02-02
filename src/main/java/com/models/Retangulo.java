@@ -13,11 +13,11 @@ public class Retangulo extends D2{
         this.altura = altura;
     }
 
-    public double area() {
+    protected double area() {
         return base * altura;
     }
 
-    public double perimetro() {
+    protected double perimetro() {
         return 2 * (base + altura);
     }
 

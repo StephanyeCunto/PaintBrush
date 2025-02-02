@@ -14,9 +14,9 @@ public abstract class D2 extends Ponto{
         this.exibirArea = exibirArea;
     }
 
-    public abstract double area();
+    protected abstract double area();
 
-    public abstract double perimetro();
+    protected abstract double perimetro();
 
     public abstract void desenhar(GraphicsContext gc);
 }

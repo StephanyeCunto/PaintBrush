@@ -12,13 +12,18 @@ public class Cilindro extends D3 {
     }
 
     @Override
-    public double volume() {
+    protected double volume() {
         return Math.PI * Math.pow(raio / 2, 2) * getProfundidade();
     }
 
     @Override
-    public double areaSuperficial() {
+    protected double areaSuperficial() {
         return 2 * Math.PI * Math.pow(raio , 2) + 2 * Math.PI * (raio ) * getProfundidade();
+    }
+
+    @Override
+    protected double perimetro() {
+        return 2 * Math.PI * raio;
     }
     
     public void desenhar(GraphicsContext gc) {
@@ -36,8 +41,10 @@ public class Cilindro extends D3 {
             gc.setLineWidth(1);
             String volumeText = String.format("Volume: %.2f px³", volume());
             String areaText = String.format("Area Superficial: %.2f px²", areaSuperficial());
+            String perimetroText = String.format("Perimetro: %.2f px", perimetro());
             gc.strokeText(volumeText, getX() + raio + 15, getY() + (raio/2));
             gc.strokeText(areaText, getX() + raio + 15, getY() + (raio/2) + 15);
+            gc.strokeText(perimetroText, getX() + raio + 15, getY() + (raio/2) + 30);
         }
     }
 }

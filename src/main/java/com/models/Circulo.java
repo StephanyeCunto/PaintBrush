@@ -12,12 +12,12 @@ public class Circulo extends D2 {
     }
 
     @Override
-    public double area() {
+    protected double area() {
         return Math.PI * Math.pow(raio, 2);
     }
 
     @Override
-    public double perimetro() {
+    protected double perimetro() {
         return 2 * Math.PI * raio;
     }
 

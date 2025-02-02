@@ -14,9 +14,11 @@ public abstract class D3 extends Ponto {
         this.exibirArea = exibirArea;
     }
 
-    public abstract double volume();
+    protected abstract double volume();
 
-    public abstract double areaSuperficial();
+    protected abstract double areaSuperficial();
+
+    protected abstract double perimetro();
 
     public abstract void desenhar(GraphicsContext gc);
 

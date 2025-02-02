@@ -14,17 +14,22 @@ public class Piramide extends D3 {
     }
 
     @Override
-    public double volume() {
+    protected double volume() {
         return (base * largura * getProfundidade()) / 3;
     }
 
     @Override
-    public double areaSuperficial() {
+    protected double areaSuperficial() {
         double areaBase = base * largura;
         double apotemaBase = Math.sqrt(Math.pow(base / 2, 2) + Math.pow(getProfundidade(), 2));
         double apotemaLargura = Math.sqrt(Math.pow(largura / 2, 2) + Math.pow(getProfundidade(), 2));
         double areaLateral = base * apotemaLargura + largura * apotemaBase;
         return areaBase + areaLateral;
+    }
+
+    @Override
+    protected double perimetro() {
+        return 4 * base + 4 * largura;
     }
 
     @Override
@@ -53,8 +58,10 @@ public class Piramide extends D3 {
             gc.setLineWidth(1);
             String volumeText = String.format("Volume: %.2f px³", volume());
             String areaText = String.format("Area Superficial: %.2f px²", areaSuperficial());
+            String perimetroText = String.format("Perimetro: %.2f px", perimetro());
             gc.strokeText(volumeText, x + base + 15, y + (largura/2));
             gc.strokeText(areaText, x + base + 15, y + (largura/2) + 15);
+            gc.strokeText(perimetroText, x + base + 15, y + (largura/2) + 30);
         }
     }
 }

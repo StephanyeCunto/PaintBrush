@@ -89,15 +89,15 @@ class Borracha{
     class D2 {
         -colorPrenchimento: String
         -exibirArea: boolean
-        +area(): double
-        +perimetro(): double
+        #area(): double
+        #perimetro(): double
         +desenhar(): void
     }
 
     class D3 {
         -profundidade: double
-        +area(): double
-        +volume(): double
+        #area(): double
+        #volume(): double
         +perimetro(): double
         +desenhar(): void
     }
@@ -110,33 +110,33 @@ class Borracha{
 
     class Circulo {
         -raio: double
-        +area(): double
-        +perimetro(): double
+        #area(): double
+        #perimetro(): double
         +desenhar(): void
     }
 
     class Retangulo {
-        =base: double
+        -base: double
         -largura: double
-        +area(): double
-        +perimetro(): double
+        #area(): double
+        #perimetro(): double
         +desenhar(): void
     }
 
     class Cilindro {
         -raio: double
-        +area(): double
-        +volume(): double
-        +perimetro(): double
+        #area(): double
+        #volume(): double
+        #perimetro(): double
         +desenhar(): void
     }
 
     class Piramide {
         -base: double
         -largura: double
-        +area(): double
-        +volume(): double
-        +perimetro(): double
+        #area(): double
+        #volume(): double
+        #perimetro(): double
         +desenhar(): void
     }
 
