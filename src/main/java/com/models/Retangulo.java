@@ -24,7 +24,9 @@ public class Retangulo extends D2{
     public void desenhar(GraphicsContext gc) {
         gc.save();
         gc.setStroke(Color.web(super.getColor()));
+        gc.setFill(Color.web(super.getColorPreenchimento()));
         gc.setLineWidth(super.getThickness());
+        gc.fillRect(super.getX(), super.getY(), base, altura);
         gc.strokeRect(super.getX(), super.getY(), base, altura);
         gc.restore();
 

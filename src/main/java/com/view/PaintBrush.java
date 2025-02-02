@@ -27,9 +27,16 @@ public class PaintBrush {
     private VBox shapeSettings;
     @FXML
     private CheckBox area;
+    @FXML
+    private ToggleGroup colorToggleGroup2D;
+    @FXML
+    private ColorPicker colorPicker2D;
+    @FXML
+    private CheckBox fillShape;
 
     private GraphicsContext gc;
     private String currentColor = "#000000";
+    private String currentColor2D = "#000000";
     private double startX, startY;
     private WritableImage canvasSnapshot;
     private final String BACKGROUND_COLOR = "#e0e0e0";
@@ -44,6 +51,7 @@ public class PaintBrush {
 
         brushSettings();
         shapeSettings();
+        setupColorPicker2D();
     }
 
     private void setupColorPicker() {
@@ -57,6 +65,21 @@ public class PaintBrush {
             currentColor = colorPicker.getValue().toString();
             if (colorToggleGroup.getSelectedToggle() != null) {
                 colorToggleGroup.getSelectedToggle().setSelected(false);
+            }
+        });
+    }
+
+    private void setupColorPicker2D(){
+        colorToggleGroup2D.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                updateColorFromToggle2D((ToggleButton) newValue);
+            }
+        });
+
+        colorPicker2D.setOnAction(event -> {
+            currentColor2D = colorPicker2D.getValue().toString();
+            if (colorToggleGroup2D.getSelectedToggle() != null) {
+                colorToggleGroup2D.getSelectedToggle().setSelected(false);
             }
         });
     }
@@ -179,6 +202,36 @@ public class PaintBrush {
         }
     }
 
+    private void updateColorFromToggle2D(ToggleButton button) {
+        String buttonId = button.getId();
+        switch (buttonId) {
+            case "blackColorBtn2D":
+                currentColor2D = "#000000";
+                break;
+            case "whiteColorBtn2D":
+                currentColor2D = "#FFFFFF";
+                break;
+            case "redColorBtn2D":
+                currentColor2D = "#FF4444";
+                break;
+            case "greenColorBtn2D":
+                currentColor2D = "#44FF44";
+                break;
+            case "blueColorBtn2D":
+                currentColor2D = "#4444FF";
+                break;
+            case "yellowColorBtn2D":
+                currentColor2D = "#FFFF44";
+                break;
+            case "magentaColorBtn2D":
+                currentColor2D = "#FF44FF";
+                break;
+            case "cyanColorBtn2D":
+                currentColor2D = "#44FFFF";
+                break;
+        }
+    }
+
     private void drawPoint(double x, double y) {
         double thickness = thicknessSlider.getValue();
         Ponto ponto = new Ponto(x, y, currentColor, thickness);
@@ -194,18 +247,30 @@ public class PaintBrush {
     private void drawCircle(double x1, double y1, double x2, double y2) {
         double thickness = thicknessSlider.getValue();
         double raio = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        if(!fillShape.isSelected()){
+            Circulo circulo = new Circulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness,
+            raio, BACKGROUND_COLOR, area.selectedProperty().getValue());
+            circulo.desenhar(gc);
+        }else{
         Circulo circulo = new Circulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness,
-                raio, "#00000", area.selectedProperty().getValue());
-        circulo.desenhar(gc);
+                raio, currentColor2D, area.selectedProperty().getValue());
+                circulo.desenhar(gc);
+        }
     }
 
     private void drawRectangle(double x1, double y1, double x2, double y2) {
         double thickness = thicknessSlider.getValue();
         double base = Math.abs(x2 - x1);
         double altura = Math.abs(y2 - y1);
+        if(!fillShape.isSelected()){
+            Retangulo retangulo = new Retangulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness, base,
+            altura, "rgba(255, 0, 0, 0)", area.selectedProperty().getValue());
+            retangulo.desenhar(gc);
+        }else{
         Retangulo retangulo = new Retangulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness, base,
-                altura,"#00000", area.selectedProperty().getValue());
+                altura, currentColor2D, area.selectedProperty().getValue());
         retangulo.desenhar(gc);
+        }
     }
 
     private void drawCilindro(double x1, double y1, double x2, double y2) {

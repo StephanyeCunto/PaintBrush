@@ -98,7 +98,7 @@ class Borracha{
         -profundidade: double
         #area(): double
         #volume(): double
-        +perimetro(): double
+        #perimetro(): double
         +desenhar(): void
     }
 
