@@ -5,9 +5,13 @@ import lombok.Getter;
 
 @Getter
 public abstract class D2 extends Ponto{
+    private String colorPreenchimento;
+    private boolean exibirArea;
 
-    public D2(Ponto coordenada, String color, double thickness) {
+    public D2(Ponto coordenada, String color, double thickness, String colorPreenchimento, boolean exibirArea) {
         super(coordenada.getX(), coordenada.getY(), color, thickness);
+        this.colorPreenchimento = colorPreenchimento;
+        this.exibirArea = exibirArea;
     }
 
     public abstract double area();

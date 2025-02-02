@@ -9,26 +9,6 @@
     -fx-background-color: -fx-background;
 }
 
-/* Responsividade e ajustes de layout */
-@media screen and (max-width: 800px) {
-    .color-palette {
-        -fx-spacing: 4px;
-        -fx-padding: 8px;
-    }
-
-    .tools-panel {
-        -fx-spacing: 4px;
-    }
-
-    .canvas-container {
-        -fx-padding: 5px;
-    }
-
-    .status-bar {
-        -fx-padding: 4px 10px;
-    }
-}
-
 .menu-bar {
     -fx-background-color: -fx-surface;
     -fx-border-color: -fx-border;
@@ -163,8 +143,8 @@
 }
 
 .brush-settings {
-    -fx-padding: 15px 10px;
-    -fx-spacing: 8px;
+    -fx-padding: 8px 10px;
+    -fx-spacing: 4px;
     -fx-background-color: derive(-fx-surface, -2%);
     -fx-background-radius: 8px;
 }
@@ -250,8 +230,6 @@
 .canvas-container {
     -fx-background-color:  #e0e0e0;
     -fx-border-color: #a0a0a0;
-    -fx-border-width: 2px;
     -fx-border-radius: 8px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);
-    -fx-padding: 10px;
 }

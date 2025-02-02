@@ -7,8 +7,8 @@ public class Piramide extends D3 {
     private double base;
     private double largura;
 
-    public Piramide(Ponto coordenada, double base, double largura, double profundidade, String color, double thickness) {
-        super(coordenada, color, thickness, profundidade);
+    public Piramide(Ponto coordenada, double base, double largura, double profundidade, String color, double thickness, boolean exibirArea) {
+        super(coordenada, color, thickness, profundidade, exibirArea);
         this.base = base;
         this.largura = largura;
     }
@@ -47,5 +47,14 @@ public class Piramide extends D3 {
         gc.strokeLine(x + base, y + largura, verticeX, verticeY); 
 
         gc.restore();
+
+        if(isExibirArea()) {
+            gc.setStroke(Color.BLACK);
+            gc.setLineWidth(1);
+            String volumeText = String.format("Volume: %.2f px³", volume());
+            String areaText = String.format("Area Superficial: %.2f px²", areaSuperficial());
+            gc.strokeText(volumeText, x + base + 15, y + (largura/2));
+            gc.strokeText(areaText, x + base + 15, y + (largura/2) + 15);
+        }
     }
 }

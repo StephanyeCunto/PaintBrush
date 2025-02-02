@@ -7,6 +7,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class PaintBrush {
@@ -20,12 +21,18 @@ public class PaintBrush {
     private ToggleGroup colorToggleGroup;
     @FXML
     private ColorPicker colorPicker;
+    @FXML
+    private VBox brushSettings;
+    @FXML
+    private VBox shapeSettings;
+    @FXML
+    private CheckBox area;
 
     private GraphicsContext gc;
     private String currentColor = "#000000";
     private double startX, startY;
     private WritableImage canvasSnapshot;
-    private final String BACKGROUND_COLOR = "#e0e0e0"; 
+    private final String BACKGROUND_COLOR = "#e0e0e0";
 
     @FXML
     public void initialize() {
@@ -34,6 +41,9 @@ public class PaintBrush {
         gc.fillRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
         setupColorPicker();
         setupCanvas();
+
+        brushSettings();
+        shapeSettings();
     }
 
     private void setupColorPicker() {
@@ -56,6 +66,13 @@ public class PaintBrush {
             startX = event.getX();
             startY = event.getY();
             canvasSnapshot = drawingCanvas.snapshot(null, null);
+
+            ToggleButton selectedTool = (ToggleButton) toolsGroup.getSelectedToggle();
+            switch (selectedTool.getText()) {
+                case "Spray":
+                    drawSpray(event.getX(),event.getY());
+                    break;
+            }
         });
 
         drawingCanvas.setOnMouseDragged(event -> {
@@ -130,31 +147,36 @@ public class PaintBrush {
                 canvasSnapshot = null;
             }
         });
-
-        drawingCanvas.setOnMousePressed(event->{
-            ToggleButton selectedTool = (ToggleButton) toolsGroup.getSelectedToggle();
-            if (selectedTool != null) {
-                switch (selectedTool.getText()) {
-                    case "Spray":
-                        drawSpray(event.getX(),event.getY());
-                        break;
-                }
-            }
-        });
     }
 
     private void updateColorFromToggle(ToggleButton button) {
-            String buttonId = button.getId();
-            switch (buttonId) {
-                case "blackColorBtn":   currentColor = "#000000"; break;
-                case "whiteColorBtn":   currentColor = "#FFFFFF"; break;
-                case "redColorBtn":     currentColor = "#FF4444"; break;
-                case "greenColorBtn":   currentColor = "#44FF44"; break;
-                case "blueColorBtn":    currentColor = "#4444FF"; break;
-                case "yellowColorBtn":  currentColor = "#FFFF44"; break;
-                case "magentaColorBtn": currentColor = "#FF44FF"; break;
-                case "cyanColorBtn":    currentColor = "#44FFFF"; break;
-            }
+        String buttonId = button.getId();
+        switch (buttonId) {
+            case "blackColorBtn":
+                currentColor = "#000000";
+                break;
+            case "whiteColorBtn":
+                currentColor = "#FFFFFF";
+                break;
+            case "redColorBtn":
+                currentColor = "#FF4444";
+                break;
+            case "greenColorBtn":
+                currentColor = "#44FF44";
+                break;
+            case "blueColorBtn":
+                currentColor = "#4444FF";
+                break;
+            case "yellowColorBtn":
+                currentColor = "#FFFF44";
+                break;
+            case "magentaColorBtn":
+                currentColor = "#FF44FF";
+                break;
+            case "cyanColorBtn":
+                currentColor = "#44FFFF";
+                break;
+        }
     }
 
     private void drawPoint(double x, double y) {
@@ -172,7 +194,8 @@ public class PaintBrush {
     private void drawCircle(double x1, double y1, double x2, double y2) {
         double thickness = thicknessSlider.getValue();
         double raio = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        Circulo circulo = new Circulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness, "Circulo", raio);
+        Circulo circulo = new Circulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness,
+                raio, "#00000", area.selectedProperty().getValue());
         circulo.desenhar(gc);
     }
 
@@ -180,7 +203,8 @@ public class PaintBrush {
         double thickness = thicknessSlider.getValue();
         double base = Math.abs(x2 - x1);
         double altura = Math.abs(y2 - y1);
-        Retangulo retangulo = new Retangulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness, base, altura);
+        Retangulo retangulo = new Retangulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness, base,
+                altura,"#00000", area.selectedProperty().getValue());
         retangulo.desenhar(gc);
     }
 
@@ -188,28 +212,52 @@ public class PaintBrush {
         double thickness = thicknessSlider.getValue();
         double diametro = Math.abs(x2 - x1);
         double profundidade = Math.abs(y2 - y1);
-        Cilindro cilindro = new Cilindro(new Ponto(x1, y1, currentColor, thickness), diametro/2, profundidade, currentColor, thickness);
+        Cilindro cilindro = new Cilindro(new Ponto(x1, y1, currentColor, thickness), diametro / 2, profundidade,
+                currentColor, thickness, area.selectedProperty().getValue());
         cilindro.desenhar(gc);
     }
 
     private void drawPiramide(double x1, double y1, double x2, double y2) {
         double thickness = thicknessSlider.getValue();
-        double base = Math.abs(x2 - x1);  
-        double largura = Math.abs(y2 - y1); 
-        double profundidade = Math.abs(y2 - y1); 
-        Piramide piramide = new Piramide(new Ponto(x1, y1, currentColor, thickness), base, largura, profundidade, currentColor, thickness);
-        piramide.desenhar(gc);  
+        double base = Math.abs(x2 - x1);
+        double largura = Math.abs(y2 - y1);
+        double profundidade = Math.abs(y2 - y1);
+        Piramide piramide = new Piramide(new Ponto(x1, y1, currentColor, thickness), base, largura, profundidade,
+                currentColor, thickness, area.selectedProperty().getValue());
+        piramide.desenhar(gc);
     }
-    
+
     private void drawEraser(double x, double y) {
         double thickness = thicknessSlider.getValue();
         Borracha borracha = new Borracha(x, y, thickness);
         borracha.desenhar(gc);
     }
 
-    private void drawSpray(double x,double y){
+    private void drawSpray(double x, double y) {
         double thickness = thicknessSlider.getValue();
         Spray spray = new Spray(x, y, currentColor, thickness);
         spray.desenhar(gc);
+    }
+
+    private void brushSettings(){
+        toolsGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            ToggleButton selectedTool = (ToggleButton) newValue;
+            if(selectedTool.getText().equals("Circulo") || selectedTool.getText().equals("Retângulo")){
+                brushSettings.setVisible(true);
+            }else{
+                brushSettings.setVisible(false);
+            }
+        });
+    }
+
+    private void shapeSettings(){
+        toolsGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            ToggleButton selectedTool = (ToggleButton) newValue;
+            if(selectedTool.getText().equals("Cilindro") || selectedTool.getText().equals("Pirâmide") || selectedTool.getText().equals("Circulo") || selectedTool.getText().equals("Retângulo")){
+                shapeSettings.setVisible(true);
+            }else{
+                shapeSettings.setVisible(false);
+            }
+        });
     }
 }

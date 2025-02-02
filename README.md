@@ -87,8 +87,8 @@ class Borracha{
 }
 
     class D2 {
-        -coordenada: Ponto
-        -estrutura: String
+        -colorPrenchimento: String
+        -exibirArea: boolean
         +area(): double
         +perimetro(): double
         +desenhar(): void

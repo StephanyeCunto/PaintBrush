@@ -14,10 +14,14 @@ public class Spray extends Ponto {
         gc.save();
         gc.setFill(javafx.scene.paint.Color.web(getColor()));
         Random random = new Random();
-        for (int i = 0; i < 10; i++) {
-            double offsetX = random.nextDouble() * getThickness() - getThickness() / 2;
-            double offsetY = random.nextDouble() * getThickness() - getThickness() / 2;
-            gc.fillOval(getX() + offsetX, getY() + offsetY, 1, 1);
+        int particles = 50;
+        double radius = getThickness() / 2;
+        for (int i = 0; i < particles; i++) {
+            double angle = random.nextDouble() * 2 * Math.PI;
+            double dist = random.nextDouble() * radius;
+            double offsetX = dist * Math.cos(angle);
+            double offsetY = dist * Math.sin(angle);
+            gc.fillOval(getX() + offsetX, getY() + offsetY, getThickness() / 10, getThickness() / 10);
         }
         gc.restore();
     }

@@ -6,9 +6,10 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tooltip?>
-<GridPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@style.css" styleClass="root" fx:controller="com.view.PaintBrush">
+<GridPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+    stylesheets="@style.css" styleClass="root" fx:controller="com.view.PaintBrush">
 
-   <!-- <MenuBar styleClass="menu-bar">
+    <!-- <MenuBar styleClass="menu-bar">
                 <menus>
                     <Menu text="Arquivo">
                         <items>
@@ -99,37 +100,44 @@
                     <Rectangle width="30" height="30" fill="black" />
                 </graphic>
             </ToggleButton>
-            <ToggleButton styleClass="color-button" fx:id="whiteColorBtn" toggleGroup="$colorToggleGroup">
+            <ToggleButton styleClass="color-button" fx:id="whiteColorBtn"
+                toggleGroup="$colorToggleGroup">
                 <graphic>
                     <Rectangle width="30" height="30" fill="#ffffff" />
                 </graphic>
             </ToggleButton>
-            <ToggleButton styleClass="color-button" fx:id="redColorBtn" toggleGroup="$colorToggleGroup">
+            <ToggleButton styleClass="color-button" fx:id="redColorBtn"
+                toggleGroup="$colorToggleGroup">
                 <graphic>
                     <Rectangle width="30" height="30" fill="#FF4444" />
                 </graphic>
             </ToggleButton>
-            <ToggleButton styleClass="color-button" fx:id="greenColorBtn" toggleGroup="$colorToggleGroup">
+            <ToggleButton styleClass="color-button" fx:id="greenColorBtn"
+                toggleGroup="$colorToggleGroup">
                 <graphic>
                     <Rectangle width="30" height="30" fill="#44FF44" />
                 </graphic>
             </ToggleButton>
-            <ToggleButton styleClass="color-button" fx:id="blueColorBtn" toggleGroup="$colorToggleGroup">
+            <ToggleButton styleClass="color-button" fx:id="blueColorBtn"
+                toggleGroup="$colorToggleGroup">
                 <graphic>
                     <Rectangle width="30" height="30" fill="#4444FF" />
                 </graphic>
             </ToggleButton>
-            <ToggleButton styleClass="color-button" fx:id="yellowColorBtn" toggleGroup="$colorToggleGroup">
+            <ToggleButton styleClass="color-button" fx:id="yellowColorBtn"
+                toggleGroup="$colorToggleGroup">
                 <graphic>
                     <Rectangle width="30" height="30" fill="#FFFF44" />
                 </graphic>
             </ToggleButton>
-            <ToggleButton styleClass="color-button" fx:id="magentaColorBtn" toggleGroup="$colorToggleGroup">
+            <ToggleButton styleClass="color-button" fx:id="magentaColorBtn"
+                toggleGroup="$colorToggleGroup">
                 <graphic>
                     <Rectangle width="30" height="30" fill="#FF44FF" />
                 </graphic>
             </ToggleButton>
-            <ToggleButton styleClass="color-button" fx:id="cyanColorBtn" toggleGroup="$colorToggleGroup">
+            <ToggleButton styleClass="color-button" fx:id="cyanColorBtn"
+                toggleGroup="$colorToggleGroup">
                 <graphic>
                     <Rectangle width="30" height="30" fill="#44FFFF" />
                 </graphic>
@@ -150,28 +158,98 @@
         <ToggleButton text="Linha" styleClass="tool-button" toggleGroup="$toolsGroup" />
         <ToggleButton text="Spray" styleClass="tool-button" toggleGroup="$toolsGroup" />
         <Separator />
-        <ToggleButton text="Retângulo" styleClass="tool-button" toggleGroup="$toolsGroup" />
+        <ToggleButton text="Retângulo" styleClass="tool-button" toggleGroup="$toolsGroup"/>
         <ToggleButton text="Circulo" styleClass="tool-button" toggleGroup="$toolsGroup" />
         <ToggleButton text="Cilindro" styleClass="tool-button" toggleGroup="$toolsGroup" />
         <ToggleButton text="Pirâmide" styleClass="tool-button" toggleGroup="$toolsGroup" />
         <Separator />
-        <VBox spacing="2" styleClass="brush-settings">
+        <VBox spacing="2" styleClass="brush-settings" >
             <Label text="Espessura" />
             <Slider fx:id="thicknessSlider" min="1" max="50" value="1" />
         </VBox>
+
+        <VBox fx:id="shapeSettings" styleClass="brush-settings" visible="false">
+                      <HBox>
+                <CheckBox fx:id="area" text="Exibir Área" />
+            </HBox>
+        </VBox>
+        <VBox styleClass="brush-settings" fx:id="brushSettings" visible="false">
+                    <HBox>
+                <CheckBox fx:id="fillShape" text="Preencher" />
+            </HBox>
+            <HBox>
+                <ColorPicker fx:id="colorPicker2D" styleClass="color-picker-advanced" />
+            </HBox>
+            <HBox>
+                <ToggleButton styleClass="color-button" fx:id="blackColorBtn2D" selected="true">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="colorToggleGroup2D" />
+                    </toggleGroup>
+                    <graphic>
+                        <Rectangle width="30" height="30" fill="black" />
+                    </graphic>
+                </ToggleButton>
+                <ToggleButton styleClass="color-button" fx:id="whiteColorBtn2D"
+                    toggleGroup="$colorToggleGroup2D">
+                    <graphic>
+                        <Rectangle width="30" height="30" fill="#ffffff" />
+                    </graphic>
+                </ToggleButton>
+                <ToggleButton styleClass="color-button" fx:id="redColorBtn2D"
+                    toggleGroup="$colorToggleGroup2D">
+                    <graphic>
+                        <Rectangle width="30" height="30" fill="#FF4444" />
+                    </graphic>
+                </ToggleButton>
+                <ToggleButton styleClass="color-button" fx:id="greenColorBtn2D"
+                    toggleGroup="$colorToggleGroup2D">
+                    <graphic>
+                        <Rectangle width="30" height="30" fill="#44FF44" />
+                    </graphic>
+                </ToggleButton>
+            </HBox>
+            <HBox>
+                <ToggleButton styleClass="color-button" fx:id="blueColorBtn2D"
+                    toggleGroup="$colorToggleGroup2D">
+                    <graphic>
+                        <Rectangle width="30" height="30" fill="#4444FF" />
+                    </graphic>
+                </ToggleButton>
+                <ToggleButton styleClass="color-button" fx:id="yellowColorBtn2D"
+                    toggleGroup="$colorToggleGroup2D">
+                    <graphic>
+                        <Rectangle width="30" height="30" fill="#FFFF44" />
+                    </graphic>
+                </ToggleButton>
+                <ToggleButton styleClass="color-button" fx:id="magentaColorBtn2D"
+                    toggleGroup="$colorToggleGroup2D">
+                    <graphic>
+                        <Rectangle width="30" height="30" fill="#FF44FF" />
+                    </graphic>
+                </ToggleButton>
+                <ToggleButton styleClass="color-button" fx:id="cyanColorBtn2D"
+                    toggleGroup="$colorToggleGroup2D">
+                    <graphic>
+                        <Rectangle width="30" height="30" fill="#44FFFF" />
+                    </graphic>
+                </ToggleButton>
+            </HBox>
+        </VBox>
     </VBox>
 
-    <StackPane fx:id="canvasContainer" styleClass="canvas-container" GridPane.rowIndex="1" GridPane.columnIndex="1">
+    <StackPane fx:id="canvasContainer" styleClass="canvas-container" GridPane.rowIndex="1"
+        GridPane.columnIndex="1">
         <Canvas fx:id="drawingCanvas" width="1200" height="690" />
     </StackPane>
 
-    <HBox styleClass="status-bar" spacing="10" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="2">
+    <HBox styleClass="status-bar" spacing="10" GridPane.rowIndex="2" GridPane.columnIndex="0"
+    GridPane.columnSpan="2">
         <padding>
             <Insets top="2" right="5" bottom="2" left="5" />
         </padding>
-        <Label fx:id="coordinatesLabel" text="X: 0, Y: 0" />
+       <!-- <Label fx:id="coordinatesLabel" text="X: 0, Y: 0" />
         <Label fx:id="toolLabel" text="Ferramenta: Selecionar" />
         <Region HBox.hgrow="ALWAYS" />
-        <Label fx:id="canvasSizeLabel" text="1200 x 800 px" />
+        <Label fx:id="canvasSizeLabel" text="1200 x 800 px" />-->
     </HBox>
 </GridPane>

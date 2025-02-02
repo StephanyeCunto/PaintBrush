@@ -6,8 +6,8 @@ import javafx.scene.paint.Color;
 public class Cilindro extends D3 {
     private double raio;
     
-    public Cilindro(Ponto coordenada, double raio, double profundidade, String color, double thickness) {
-        super(coordenada, color, thickness, profundidade);
+    public Cilindro(Ponto coordenada, double raio, double profundidade, String color, double thickness, boolean exibirArea) {
+        super(coordenada, color, thickness, profundidade, exibirArea);
         this.raio = raio;
     }
 
@@ -30,5 +30,14 @@ public class Cilindro extends D3 {
         gc.strokeLine(getX() + raio, getY(), getX() + raio, getY() + getProfundidade());
         gc.strokeOval(getX(), getY() + getProfundidade() - raio/4, raio, raio/2); 
         gc.restore();
+
+        if(isExibirArea()) {
+            gc.setStroke(Color.BLACK);
+            gc.setLineWidth(1);
+            String volumeText = String.format("Volume: %.2f px³", volume());
+            String areaText = String.format("Area Superficial: %.2f px²", areaSuperficial());
+            gc.strokeText(volumeText, getX() + raio + 15, getY() + (raio/2));
+            gc.strokeText(areaText, getX() + raio + 15, getY() + (raio/2) + 15);
+        }
     }
 }
