@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Tooltip?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@style.css"
+    styleClass="brush-settings"
+    fx:controller="com.view.ColorPalette2D">
+    <HBox>
+        <CheckBox fx:id="fillShape" text="Preencher" />
+    </HBox>
+    <HBox>
+        <ColorPicker fx:id="colorPicker2D" styleClass="color-picker-advanced" />
+    </HBox>
+    <HBox>
+        <ToggleButton styleClass="color-button" fx:id="blackColorBtn2D" selected="true">
+            <toggleGroup>
+                <ToggleGroup fx:id="colorToggleGroup2D" />
+            </toggleGroup>
+            <graphic>
+                <Rectangle width="30" height="30" fill="black" />
+            </graphic>
+        </ToggleButton>
+        <ToggleButton styleClass="color-button" fx:id="whiteColorBtn2D"
+            toggleGroup="$colorToggleGroup2D">
+            <graphic>
+                <Rectangle width="30" height="30" fill="#ffffff" />
+            </graphic>
+        </ToggleButton>
+        <ToggleButton styleClass="color-button" fx:id="redColorBtn2D"
+            toggleGroup="$colorToggleGroup2D">
+            <graphic>
+                <Rectangle width="30" height="30" fill="#FF4444" />
+            </graphic>
+        </ToggleButton>
+        <ToggleButton styleClass="color-button" fx:id="greenColorBtn2D"
+            toggleGroup="$colorToggleGroup2D">
+            <graphic>
+                <Rectangle width="30" height="30" fill="#44FF44" />
+            </graphic>
+        </ToggleButton>
+    </HBox>
+    <HBox>
+        <ToggleButton styleClass="color-button" fx:id="blueColorBtn2D"
+            toggleGroup="$colorToggleGroup2D">
+            <graphic>
+                <Rectangle width="30" height="30" fill="#4444FF" />
+            </graphic>
+        </ToggleButton>
+        <ToggleButton styleClass="color-button" fx:id="yellowColorBtn2D"
+            toggleGroup="$colorToggleGroup2D">
+            <graphic>
+                <Rectangle width="30" height="30" fill="#FFFF44" />
+            </graphic>
+        </ToggleButton>
+        <ToggleButton styleClass="color-button" fx:id="magentaColorBtn2D"
+            toggleGroup="$colorToggleGroup2D">
+            <graphic>
+                <Rectangle width="30" height="30" fill="#FF44FF" />
+            </graphic>
+        </ToggleButton>
+        <ToggleButton styleClass="color-button" fx:id="cyanColorBtn2D"
+            toggleGroup="$colorToggleGroup2D">
+            <graphic>
+                <Rectangle width="30" height="30" fill="#44FFFF" />
+            </graphic>
+        </ToggleButton>
+    </HBox>
+</VBox>

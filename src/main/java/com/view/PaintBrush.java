@@ -1,11 +1,15 @@
 package com.view;
 
+import java.io.IOException;
+
 import com.models.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -17,21 +21,13 @@ public class PaintBrush {
     @FXML
     private ToggleGroup toolsGroup;
     @FXML
-    private ToggleGroup colorToggleGroup;
-    @FXML
-    private ColorPicker colorPicker;
-    @FXML
     private VBox brushSettings;
     @FXML
     private VBox shapeSettings;
     @FXML
     private CheckBox area;
     @FXML
-    private ToggleGroup colorToggleGroup2D;
-    @FXML
-    private ColorPicker colorPicker2D;
-    @FXML
-    private CheckBox fillShape;
+    private HBox colorPalette;
 
     private GraphicsContext gc;
     private String currentColor = "#000000";
@@ -39,6 +35,8 @@ public class PaintBrush {
     private double startX, startY;
     private WritableImage canvasSnapshot;
     private final String BACKGROUND_COLOR = "#e0e0e0";
+    private  ColorPalette paletteController;
+    private  ColorPalette2D paletteController2D;
 
     @FXML
     private void initialize() {
@@ -46,11 +44,32 @@ public class PaintBrush {
         gc.setFill(Color.web(BACKGROUND_COLOR));
         gc.fillRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
     
-        ColorManager primaryColorManager = new ColorManager(colorToggleGroup, colorPicker, color -> currentColor = color);
-        ColorManager secondaryColorManager = new ColorManager(colorToggleGroup2D, colorPicker2D, color -> currentColor2D = color);
+        addColor();
     
         setupCanvas();
         setupVisibilityForSettings();
+    }
+
+    private void addColor(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/colorPalette.fxml"));
+            HBox paletteContent = loader.load();
+            paletteController = loader.getController();
+            colorPalette.getChildren().add(paletteContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addColor2D(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/colorPalette2D.fxml"));
+            VBox paletteContent2D = loader.load();
+            paletteController2D = loader.getController();
+            brushSettings.getChildren().add(paletteContent2D);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setupCanvas() {
@@ -70,6 +89,8 @@ public class PaintBrush {
     }
 
     private void handleMouseAction(javafx.scene.input.MouseEvent event, boolean isRelease) {
+        currentColor = paletteController.getSelectedColor();
+
         ToggleButton selectedTool = (ToggleButton) toolsGroup.getSelectedToggle();
         Ferramenta ferramenta = Ferramenta.porNome(selectedTool.getText()); 
         drawShape(ferramenta, event.getX(), event.getY(), false);
@@ -92,25 +113,24 @@ public class PaintBrush {
         if (isRelease) {
             gc.drawImage(canvasSnapshot, 0, 0);
         }
-        
-        switch (ferramenta) {
-            case LINHA:
-                if (isRelease) drawLine(startX, startY, x, y);
-                break;
-            case CIRCULO:
-                if (isRelease) drawCircle(startX, startY, x, y);
-                break;
-            case RETANGULO:
-                if (isRelease) drawRectangle(startX, startY, x, y);
-                break;
-            case CILINDRO:
-                if (isRelease) drawCilindro(startX, startY, x, y);
-                break;
-            case PIRAMIDE:
-                if (isRelease) drawPiramide(startX, startY, x, y);
-                break;
+            if (ferramenta == Ferramenta.LINHA) {
+            if (isRelease) drawLine(startX, startY, x, y);
+        } else if (ferramenta == Ferramenta.CIRCULO || ferramenta == Ferramenta.RETANGULO) {
+            currentColor2D = paletteController2D.getSelectedColor();
+            if (isRelease) {
+                if (ferramenta == Ferramenta.CIRCULO) {
+                    drawCircle(startX, startY, x, y);
+                } else {
+                    drawRectangle(startX, startY, x, y);
+                }
+            }
+        } else if (ferramenta == Ferramenta.CILINDRO) {
+            if (isRelease) drawCilindro(startX, startY, x, y);
+        } else if (ferramenta == Ferramenta.PIRAMIDE) {
+            if (isRelease) drawPiramide(startX, startY, x, y);
         }
     }
+    
 
     private void drawPoint(double x, double y) {
         double thickness = thicknessSlider.getValue();
@@ -128,7 +148,7 @@ public class PaintBrush {
         double thickness = thicknessSlider.getValue();
         double raio = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
         Circulo circulo = new Circulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness,
-                raio, fillShape.isSelected() ? currentColor2D :  "rgba(255, 0, 0, 0)", area.isSelected());
+                raio, paletteController2D.isFillShape() ? currentColor2D :  "rgba(255, 0, 0, 0)", area.isSelected());
         circulo.desenhar(gc);
     }
 
@@ -137,7 +157,7 @@ public class PaintBrush {
         double base = Math.abs(x2 - x1);
         double altura = Math.abs(y2 - y1);
         Retangulo retangulo = new Retangulo(new Ponto(x1, y1, currentColor, thickness), currentColor, thickness,
-                base, altura, fillShape.isSelected() ? currentColor2D : "rgba(255, 0, 0, 0)", area.isSelected());
+                base, altura, paletteController2D.isFillShape() ? currentColor2D : "rgba(255, 0, 0, 0)", area.isSelected());
         retangulo.desenhar(gc);
     }
 
@@ -176,7 +196,10 @@ public class PaintBrush {
         toolsGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             ToggleButton selectedTool = (ToggleButton) newValue;
             Ferramenta ferramenta = Ferramenta.porNome(selectedTool.getText());
-            brushSettings.setVisible(ferramenta.ehPreenchida());
+            brushSettings.getChildren().clear();
+            if(ferramenta.ehPreenchida()){
+                addColor2D();
+            }
             shapeSettings.setVisible(ferramenta.ehForma());
         });
     }

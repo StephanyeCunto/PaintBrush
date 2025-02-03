@@ -71,48 +71,59 @@ O **PaintBrush** segue uma arquitetura orientada a objetos robusta, com classes 
 ```mermaid
 classDiagram
     %% Agrupamento de classes
-      class PaintBrush {
+    class PaintBrush {
         - Canvas drawingCanvas
         - Slider thicknessSlider
         - ToggleGroup toolsGroup
-        - ToggleGroup colorToggleGroup
-        - ColorPicker colorPicker
         - VBox brushSettings
         - VBox shapeSettings
         - CheckBox area
-        - ToggleGroup colorToggleGroup2D
-        - ColorPicker colorPicker2D
-        - CheckBox fillShape
+        - HBox colorPalette
         - GraphicsContext gc
         - String currentColor
         - String currentColor2D
         - double startX
         - double startY
         - WritableImage canvasSnapshot
-        - final String BACKGROUND_COLOR
-        + initialize()
-        + setupCanvas()
-        + handleMouseAction(MouseEvent event, boolean isRelease)
-        + drawShape(Ferramenta ferramenta, double x, double y, boolean isRelease)
-        + drawPoint(double x, double y)
-        + drawLine(double x1, double y1, double x2, double y2)
-        + drawCircle(double x1, double y1, double x2, double y2)
-        + drawRectangle(double x1, double y1, double x2, double y2)
-        + drawCilindro(double x1, double y1, double x2, double y2)
-        + drawPiramide(double x1, double y1, double x2, double y2)
-        + drawEraser(double x, double y)
-        + drawSpray(double x, double y)
-        + setupVisibilityForSettings()
+        - String BACKGROUND_COLOR
+        - ColorPalette paletteController
+        - ColorPalette2D paletteController2D
+        + void initialize()
+        + void addColor()
+        + void addColor2D()
+        + void setupCanvas()
+        + void handleMouseAction(event, isRelease)
+        + void drawShape(ferramenta, x, y, isRelease)
+        + void drawPoint(x, y)
+        + void drawLine(x1, y1, x2, y2)
+        + void drawCircle(x1, y1, x2, y2)
+        + void drawRectangle(x1, y1, x2, y2)
+        + void drawCilindro(x1, y1, x2, y2)
+        + void drawPiramide(x1, y1, x2, y2)
+        + void drawEraser(x, y)
+        + void drawSpray(x, y)
+        + void setupVisibilityForSettings()
     }
 
-
-    class ColorManager {
+    class ColorPalette {
         - ToggleGroup colorToggleGroup
         - ColorPicker colorPicker
         - String selectedColor
-        - static Map<String, String> COLOR_MAP
-        + ColorManager(ToggleGroup, ColorPicker, Consumer<String>)
-        + getSelectedColor() : String
+        + void initialize()
+        + void setupColorPicker(toggleGroup, colorPicker, colorConsumer)
+        + void updateColorFromToggle(button, colorConsumer)
+        + boolean isFillShape()
+    }
+
+    class ColorPalette2D {
+        - ToggleGroup colorToggleGroup2D
+        - ColorPicker colorPicker2D
+        - CheckBox fillShape
+        - String selectedColor
+        + void initialize()
+        + void setupColorPicker(toggleGroup, colorPicker, colorConsumer)
+        + void updateColorFromToggle(button, colorConsumer)
+        + boolean isFillShape()
     }
     
       class Ferramenta {
@@ -213,7 +224,9 @@ classDiagram
     PaintBrush --> Piramide : utiliza
     PaintBrush --> Borracha : utiliza
     PaintBrush --> Spray : utiliza
-    PaintBrush --> ColorManager : utiliza
+
+   PaintBrush --> ColorPalette : possui
+    PaintBrush --> ColorPalette2D : possui
     PaintBrush --> Ferramenta : utiliza
 
     Borracha --|> Ponto
