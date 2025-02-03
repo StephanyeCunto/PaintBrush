@@ -20,7 +20,7 @@ public class ColorPalette {
     private static final Map<String, String> COLOR_MAP = new HashMap<>();
 
     @FXML
-    private void initialize() {
+    public void initialize() {
         setupColorPicker(colorToggleGroup, colorPicker, color -> selectedColor = color);
 
     }
@@ -28,7 +28,7 @@ public class ColorPalette {
     private void setupColorPicker(ToggleGroup toggleGroup, ColorPicker colorPicker, java.util.function.Consumer<String> colorConsumer) {
         toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                updateColorFromToggle((ToggleButton) newValue, colorConsumer);
+                updateColorFromToggle((ToggleButton) newValue);
             }
         });
 
@@ -40,7 +40,7 @@ public class ColorPalette {
         });
     }
 
-    private void updateColorFromToggle(ToggleButton button, java.util.function.Consumer<String> colorConsumer) {
+    private void updateColorFromToggle(ToggleButton button) {
         String buttonId = button.getId();
         selectedColor = COLOR_MAP.get(buttonId);
     }

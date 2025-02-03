@@ -72,58 +72,69 @@ O **PaintBrush** segue uma arquitetura orientada a objetos robusta, com classes 
 classDiagram
     %% Agrupamento de classes
     class PaintBrush {
-        - Canvas drawingCanvas
-        - Slider thicknessSlider
-        - ToggleGroup toolsGroup
-        - VBox brushSettings
-        - VBox shapeSettings
-        - CheckBox area
-        - HBox colorPalette
-        - GraphicsContext gc
-        - String currentColor
-        - String currentColor2D
-        - double startX
-        - double startY
-        - WritableImage canvasSnapshot
-        - String BACKGROUND_COLOR
-        - ColorPalette paletteController
-        - ColorPalette2D paletteController2D
-        + void initialize()
-        + void addColor()
-        + void addColor2D()
-        + void setupCanvas()
-        + void handleMouseAction(event, isRelease)
-        + void drawShape(ferramenta, x, y, isRelease)
-        + void drawPoint(x, y)
-        + void drawLine(x1, y1, x2, y2)
-        + void drawCircle(x1, y1, x2, y2)
-        + void drawRectangle(x1, y1, x2, y2)
-        + void drawCilindro(x1, y1, x2, y2)
-        + void drawPiramide(x1, y1, x2, y2)
-        + void drawEraser(x, y)
-        + void drawSpray(x, y)
-        + void setupVisibilityForSettings()
+        -Canvas drawingCanvas
+        -HBox colorPalette
+        -VBox toolsPanel
+        -GraphicsContext gc
+        -String currentColor
+        -String currentColor2D
+        -double startX
+        -double startY
+        -WritableImage canvasSnapshot
+        -final String BACKGROUND_COLOR
+        -ColorPalette paletteController
+        -ToolGroup toolGroupController
+        +void initialize()
+        -void addColor()
+        -void addToolGroup()
+        -void setupCanvas()
+        -void handleMouseAction(MouseEvent event)
+        -void drawShape(Ferramenta ferramenta, double x, double y, boolean isRelease)
+        -void drawPoint(double x, double y)
+        -void drawLine(double x1, double y1, double x2, double y2)
+        -void drawCircle(double x1, double y1, double x2, double y2)
+        -void drawRectangle(double x1, double y1, double x2, double y2)
+        -void drawCilindro(double x1, double y1, double x2, double y2)
+        -void drawPiramide(double x1, double y1, double x2, double y2)
+        -void drawEraser(double x, double y)
+        -void drawSpray(double x, double y)
     }
 
-    class ColorPalette {
-        - ToggleGroup colorToggleGroup
-        - ColorPicker colorPicker
-        - String selectedColor
-        + void initialize()
-        + void setupColorPicker(toggleGroup, colorPicker, colorConsumer)
-        + void updateColorFromToggle(button, colorConsumer)
-        + boolean isFillShape()
+  class ToolGroup {
+        -ToggleGroup toolsGroup
+        -VBox brushSettings
+        -VBox shapeSettings
+        -Slider thicknessSlider
+        -CheckBox area
+        -ColorPalette2D paletteController2D
+        +void initialize()
+        -void addColor2D()
+        -void setupVisibilityForSettings()
+        +String getSelectedColor2D()
+        +boolean isFillShape()
+        +double getThickness()
+        +boolean isArea()
+        +Ferramenta getSelectedTool()
     }
 
     class ColorPalette2D {
-        - ToggleGroup colorToggleGroup2D
-        - ColorPicker colorPicker2D
-        - CheckBox fillShape
-        - String selectedColor
-        + void initialize()
-        + void setupColorPicker(toggleGroup, colorPicker, colorConsumer)
-        + void updateColorFromToggle(button, colorConsumer)
-        + boolean isFillShape()
+        -ToggleGroup colorToggleGroup2D
+        -ColorPicker colorPicker2D
+        -CheckBox fillShape
+        -String selectedColor
+        +void initialize()
+        -void setupColorPicker(ToggleGroup toggleGroup, ColorPicker colorPicker, Consumer<String> colorConsumer)
+        -void updateColorFromToggle(ToggleButton button)
+        +boolean isFillShape()
+    }
+
+    class ColorPalette {
+        -ToggleGroup colorToggleGroup
+        -ColorPicker colorPicker
+        -String selectedColor
+        +void initialize()
+        -void setupColorPicker(ToggleGroup toggleGroup, ColorPicker colorPicker, Consumer<String> colorConsumer)
+        -void updateColorFromToggle(ToggleButton button)
     }
     
       class Ferramenta {
@@ -226,8 +237,11 @@ classDiagram
     PaintBrush --> Spray : utiliza
 
    PaintBrush --> ColorPalette : possui
-    PaintBrush --> ColorPalette2D : possui
     PaintBrush --> Ferramenta : utiliza
+   PaintBrush --> ToolGroup : possui
+ ToolGroup --> ColorPalette2D : possui
+ ToolGroup --> Ferramenta : utiliza
+
 
     Borracha --|> Ponto
     Cilindro --|> D3

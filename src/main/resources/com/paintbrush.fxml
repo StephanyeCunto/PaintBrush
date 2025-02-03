@@ -6,6 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tooltip?>
+
 <GridPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
     stylesheets="@style.css" styleClass="root" fx:controller="com.view.PaintBrush">
 
@@ -95,36 +96,8 @@
         </HBox>
     </VBox>
 
-    <VBox styleClass="tools-panel" spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="0">
-        <padding>
-            <Insets top="5" right="5" bottom="5" left="5" />
-        </padding>
-        <ToggleButton text="Lápis" styleClass="tool-button" selected="true">
-            <toggleGroup>
-                <ToggleGroup fx:id="toolsGroup" />
-            </toggleGroup>
-        </ToggleButton>
-        <ToggleButton text="Borracha" styleClass="tool-button" toggleGroup="$toolsGroup" />
-        <ToggleButton text="Linha" styleClass="tool-button" toggleGroup="$toolsGroup" />
-        <ToggleButton text="Spray" styleClass="tool-button" toggleGroup="$toolsGroup" />
-        <Separator />
-        <ToggleButton text="Retângulo" styleClass="tool-button" toggleGroup="$toolsGroup"/>
-        <ToggleButton text="Circulo" styleClass="tool-button" toggleGroup="$toolsGroup" />
-        <ToggleButton text="Cilindro" styleClass="tool-button" toggleGroup="$toolsGroup" />
-        <ToggleButton text="Pirâmide" styleClass="tool-button" toggleGroup="$toolsGroup" />
-        <Separator />
-        <VBox spacing="2" styleClass="brush-settings" >
-            <Label text="Espessura" />
-            <Slider fx:id="thicknessSlider" min="1" max="50" value="1" prefWidth="200"/>
-        </VBox>
+    <VBox fx:id="toolsPanel" spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="0">
 
-        <VBox fx:id="shapeSettings" styleClass="brush-settings" visible="false">
-            <HBox>
-                <CheckBox fx:id="area" text="Exibir Área" />
-            </HBox>
-        </VBox>
-        <VBox fx:id="brushSettings">
-        </VBox>
     </VBox>
 
     <StackPane fx:id="canvasContainer" styleClass="canvas-container" GridPane.rowIndex="1"
