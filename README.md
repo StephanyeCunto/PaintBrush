@@ -71,41 +71,60 @@ O **PaintBrush** segue uma arquitetura orientada a objetos robusta, com classes 
 ```mermaid
 classDiagram
     %% Agrupamento de classes
-    class PaintBrush {
-        -Canvas drawingCanvas
-        -Slider thicknessSlider
-        -ToggleGroup toolsGroup
-        -ToggleGroup colorToggleGroup
-        -ColorPicker colorPicker
-        -VBox brushSettings
-        -VBox shapeSettings
-        -CheckBox area
-        -ToggleGroup colorToggleGroup2D
-        -ColorPicker colorPicker2D
-        -CheckBox fillShape
-        -GraphicsContext gc
-        -String currentColor
-        -String currentColor2D
-        -double startX
-        -double startY
-        -WritableImage canvasSnapshot
-        -String BACKGROUND_COLOR
-        +void initialize()
-        -void setupColorPicker(ToggleGroup, ColorPicker, java.util.function.Consumer)
-        -void setupCanvas()
-        -void handleMouseAction(javafx.scene.input.MouseEvent, boolean)
-        -void drawShape(String, double, double, boolean)
-        -void updateColorFromToggle(ToggleButton, java.util.function.Consumer)
-        -void drawPoint(double, double)
-        -void drawLine(double, double, double, double)
-        -void drawCircle(double, double, double, double)
-        -void drawRectangle(double, double, double, double)
-        -void drawCilindro(double, double, double, double)
-        -void drawPiramide(double, double, double, double)
-        -void drawEraser(double, double)
-        -void drawSpray(double, double)
-        -void setupVisibilityForSettings()
+      class PaintBrush {
+        - Canvas drawingCanvas
+        - Slider thicknessSlider
+        - ToggleGroup toolsGroup
+        - ToggleGroup colorToggleGroup
+        - ColorPicker colorPicker
+        - VBox brushSettings
+        - VBox shapeSettings
+        - CheckBox area
+        - ToggleGroup colorToggleGroup2D
+        - ColorPicker colorPicker2D
+        - CheckBox fillShape
+        - GraphicsContext gc
+        - String currentColor
+        - String currentColor2D
+        - double startX
+        - double startY
+        - WritableImage canvasSnapshot
+        - final String BACKGROUND_COLOR
+        + initialize()
+        + setupCanvas()
+        + handleMouseAction(MouseEvent event, boolean isRelease)
+        + drawShape(Ferramenta ferramenta, double x, double y, boolean isRelease)
+        + drawPoint(double x, double y)
+        + drawLine(double x1, double y1, double x2, double y2)
+        + drawCircle(double x1, double y1, double x2, double y2)
+        + drawRectangle(double x1, double y1, double x2, double y2)
+        + drawCilindro(double x1, double y1, double x2, double y2)
+        + drawPiramide(double x1, double y1, double x2, double y2)
+        + drawEraser(double x, double y)
+        + drawSpray(double x, double y)
+        + setupVisibilityForSettings()
     }
+
+
+    class ColorManager {
+        - ToggleGroup colorToggleGroup
+        - ColorPicker colorPicker
+        - String selectedColor
+        - static Map<String, String> COLOR_MAP
+        + ColorManager(ToggleGroup, ColorPicker, Consumer<String>)
+        + getSelectedColor() : String
+    }
+    
+      class Ferramenta {
+<<enumeration>>
+        +String nome
+        +boolean ehPreenchida()
+        +boolean ehForma()
+        +static Ferramenta porNome(String nome)
+        -static Set<Ferramenta> FORMAS
+        -static Set<Ferramenta> FORMASPREENCHIDAS
+    }
+
 
     class Borracha {
         -double x
@@ -130,6 +149,7 @@ classDiagram
     }
 
     class D2 {
+<<abstract>>
         -String colorPreenchimento
          -boolean exibirArea
         #double area()
@@ -138,6 +158,7 @@ classDiagram
     }
 
     class D3 {
+<<abstract>>
         -double profundidade
         #double volume()
         #double areaSuperficial()
@@ -192,6 +213,8 @@ classDiagram
     PaintBrush --> Piramide : utiliza
     PaintBrush --> Borracha : utiliza
     PaintBrush --> Spray : utiliza
+    PaintBrush --> ColorManager : utiliza
+    PaintBrush --> Ferramenta : utiliza
 
     Borracha --|> Ponto
     Cilindro --|> D3
@@ -202,6 +225,7 @@ classDiagram
     Reta --|> Ponto
     Retangulo --|> D2
     Spray --|> Ponto
+
 ```
 
 ---

@@ -41,29 +41,16 @@ public class PaintBrush {
     private final String BACKGROUND_COLOR = "#e0e0e0";
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         gc = drawingCanvas.getGraphicsContext2D();
         gc.setFill(Color.web(BACKGROUND_COLOR));
         gc.fillRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
-        setupColorPicker(colorToggleGroup, colorPicker, (color) -> currentColor = color);
-        setupColorPicker(colorToggleGroup2D, colorPicker2D, (color) -> currentColor2D = color);
+    
+        ColorManager primaryColorManager = new ColorManager(colorToggleGroup, colorPicker, color -> currentColor = color);
+        ColorManager secondaryColorManager = new ColorManager(colorToggleGroup2D, colorPicker2D, color -> currentColor2D = color);
+    
         setupCanvas();
         setupVisibilityForSettings();
-    }
-
-    private void setupColorPicker(ToggleGroup toggleGroup, ColorPicker colorPicker, java.util.function.Consumer<String> colorConsumer) {
-        toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                updateColorFromToggle((ToggleButton) newValue, colorConsumer);
-            }
-        });
-
-        colorPicker.setOnAction(event -> {
-            colorConsumer.accept(colorPicker.getValue().toString());
-            if (toggleGroup.getSelectedToggle() != null) {
-                toggleGroup.getSelectedToggle().setSelected(false);
-            }
-        });
     }
 
     private void setupCanvas() {
@@ -84,87 +71,43 @@ public class PaintBrush {
 
     private void handleMouseAction(javafx.scene.input.MouseEvent event, boolean isRelease) {
         ToggleButton selectedTool = (ToggleButton) toolsGroup.getSelectedToggle();
-        String toolText = selectedTool.getText();
-       
-            drawShape(toolText, event.getX(), event.getY(), false);
-            if (toolText.equals("Lápis")) {
+        Ferramenta ferramenta = Ferramenta.porNome(selectedTool.getText()); 
+        drawShape(ferramenta, event.getX(), event.getY(), false);
+        switch (ferramenta) {
+            case LAPIS:
                 drawPoint(event.getX(), event.getY());
-            } else if (toolText.equals("Borracha")) {
+                break;
+            case BORRACHA:
                 drawEraser(event.getX(), event.getY());
-            } else if (toolText.equals("Spray")) {
+                break;
+            case SPRAY:
                 drawSpray(event.getX(), event.getY());
-            }else{
-                drawShape(toolText, event.getX(), event.getY(), true);
-            }
-        
+                break;
+            default:
+                drawShape(ferramenta, event.getX(), event.getY(), true);
+        }
     }
 
-    private void drawShape(String toolText, double x, double y, boolean isRelease) {
+    private void drawShape(Ferramenta ferramenta, double x, double y, boolean isRelease) {
         if (isRelease) {
             gc.drawImage(canvasSnapshot, 0, 0);
         }
-        switch (toolText) {
-            case "Linha":
+        
+        switch (ferramenta) {
+            case LINHA:
                 if (isRelease) drawLine(startX, startY, x, y);
                 break;
-            case "Lápis":
-                drawPoint(x, y);
-                break;
-            case "Borracha":
-                drawEraser(x, y);
-                break;
-            case "Circulo":
+            case CIRCULO:
                 if (isRelease) drawCircle(startX, startY, x, y);
                 break;
-            case "Retângulo":
+            case RETANGULO:
                 if (isRelease) drawRectangle(startX, startY, x, y);
                 break;
-            case "Cilindro":
+            case CILINDRO:
                 if (isRelease) drawCilindro(startX, startY, x, y);
                 break;
-            case "Pirâmide":
+            case PIRAMIDE:
                 if (isRelease) drawPiramide(startX, startY, x, y);
-                break;
-            case "Spray":
-                drawSpray(x, y);
-                break;
-        }
-    }
-
-    private void updateColorFromToggle(ToggleButton button, java.util.function.Consumer<String> colorConsumer) {
-        String buttonId = button.getId();
-        switch (buttonId) {
-            case "blackColorBtn":
-            case "blackColorBtn2D":
-                colorConsumer.accept("#000000");
-                break;
-            case "whiteColorBtn":
-            case "whiteColorBtn2D":
-                colorConsumer.accept("#FFFFFF");
-                break;
-            case "redColorBtn":
-            case "redColorBtn2D":
-                colorConsumer.accept("#FF4444");
-                break;
-            case "greenColorBtn":
-            case "greenColorBtn2D":
-                colorConsumer.accept("#44FF44");
-                break;
-            case "blueColorBtn":
-            case "blueColorBtn2D":
-                colorConsumer.accept("#4444FF");
-                break;
-            case "yellowColorBtn":
-            case "yellowColorBtn2D":
-                colorConsumer.accept("#FFFF44");
-                break;
-            case "magentaColorBtn":
-            case "magentaColorBtn2D":
-                colorConsumer.accept("#FF44FF");
-                break;
-            case "cyanColorBtn":
-            case "cyanColorBtn2D":
-                colorConsumer.accept("#44FFFF");
                 break;
         }
     }
@@ -232,9 +175,9 @@ public class PaintBrush {
     private void setupVisibilityForSettings() {
         toolsGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             ToggleButton selectedTool = (ToggleButton) newValue;
-            boolean isShapeTool = selectedTool.getText().matches("Circulo|Retângulo|Cilindro|Pirâmide");
-            brushSettings.setVisible(isShapeTool);
-            shapeSettings.setVisible(isShapeTool);
+            Ferramenta ferramenta = Ferramenta.porNome(selectedTool.getText());
+            brushSettings.setVisible(ferramenta.ehPreenchida());
+            shapeSettings.setVisible(ferramenta.ehForma());
         });
     }
 }
