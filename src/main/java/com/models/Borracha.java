@@ -11,8 +11,7 @@ public class Borracha extends Ponto{
     public void desenhar(GraphicsContext gc) {
         gc.save();
         gc.setFill(javafx.scene.paint.Color.web(getColor()));
-        gc.fillOval(getX() - getThickness() / 2, getY() - getThickness() / 2, getThickness() , getThickness() );
+        gc.fillRect(getX() - getThickness() / 2, getY() - getThickness() / 2, getThickness() , getThickness() );
         gc.restore();
     }
-
 }

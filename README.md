@@ -60,7 +60,6 @@ O **PaintBrush** oferece uma série de funcionalidades interativas e automática
 - **Desenho Interativo**: As formas geométricas podem ser desenhadas diretamente na interface gráfica.
 - **Cálculos Automáticos**: Cada forma tem cálculos automáticos de área, perímetro e volume.
 - **Personalização de Cores e Tamanho**: As formas podem ser personalizadas em termos de cor e tamanho diretamente na interface.
-- **Zoom e Movimentação**: A interface gráfica permite zoom in/out para facilitar o desenho de formas de diferentes tamanhos.
 
 ---
 

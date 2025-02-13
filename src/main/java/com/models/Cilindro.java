@@ -27,20 +27,18 @@ public class Cilindro extends D3 {
     }
     
     public void desenhar(GraphicsContext gc) {
-        gc.save();
         gc.setLineWidth(getThickness());
         gc.setStroke(Color.web(getColor()));
         gc.strokeOval(getX(), getY() - raio/4, raio, raio/2);
         gc.strokeLine(getX(), getY(), getX(), getY() + getProfundidade());
         gc.strokeLine(getX() + raio, getY(), getX() + raio, getY() + getProfundidade());
         gc.strokeOval(getX(), getY() + getProfundidade() - raio/4, raio, raio/2); 
-        gc.restore();
 
         if(isExibirArea()) {
             gc.setStroke(Color.BLACK);
             gc.setLineWidth(1);
             String volumeText = String.format("Volume: %.2f px³", volume());
-            String areaText = String.format("Area Superficial: %.2f px²", areaSuperficial());
+            String areaText = String.format("Area: %.2f px²", areaSuperficial());
             String perimetroText = String.format("Perimetro: %.2f px", perimetro());
             gc.strokeText(volumeText, getX() + raio + 15, getY());
             gc.strokeText(areaText, getX() + raio + 15, getY() + 15);

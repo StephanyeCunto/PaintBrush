@@ -23,7 +23,6 @@ public class Circulo extends D2 {
 
     @Override
     public void desenhar(GraphicsContext gc) {
-        gc.save();
         gc.setStroke(Color.web(super.getColor()));
         gc.setFill(Color.web(super.getColorPreenchimento()));
         gc.setLineWidth(super.getThickness());
@@ -32,16 +31,13 @@ public class Circulo extends D2 {
         gc.strokeOval(getX(), getY() - raio/4, raio, raio);
         
         if (isExibirArea()) {
-            gc.save();
             gc.setStroke(Color.BLACK);
             gc.setLineWidth(1);
             String areaText = String.format("Area: %.2f px²", area());
             String perimetroText = String.format("Perimetro: %.2f px", perimetro());
             gc.strokeText(areaText, getX()+raio+getThickness() , getY() );
             gc.strokeText(perimetroText,getX()+raio+getThickness() , getY()+ 15);
-            gc.restore();
         }
         
-        gc.restore();
     }
 }

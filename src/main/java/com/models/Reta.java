@@ -16,11 +16,9 @@ public class Reta extends Ponto {
     
     @Override
     public void desenhar(GraphicsContext gc) {
-        gc.save();
         gc.setStroke(Color.web(super.getColor()));
         gc.setLineWidth(super.getThickness());
         gc.setLineCap(StrokeLineCap.ROUND);
         gc.strokeLine(super.getX(), super.getY(), x1, y1);
-        gc.restore();
     }
 }

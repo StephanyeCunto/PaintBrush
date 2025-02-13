@@ -11,7 +11,6 @@ public class Spray extends Ponto {
 
     @Override
     public void desenhar(GraphicsContext gc) {
-        gc.save();
         gc.setFill(javafx.scene.paint.Color.web(getColor()));
         Random random = new Random();
         int particles = 50;
@@ -23,6 +22,5 @@ public class Spray extends Ponto {
             double offsetY = dist * Math.sin(angle);
             gc.fillOval(getX() + offsetX, getY() + offsetY, getThickness() / 10, getThickness() / 10);
         }
-        gc.restore();
     }
 }

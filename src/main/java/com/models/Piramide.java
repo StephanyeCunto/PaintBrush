@@ -34,7 +34,6 @@ public class Piramide extends D3 {
 
     @Override
     public void desenhar(GraphicsContext gc) {
-        gc.save();
         gc.setStroke(Color.web(super.getColor()));
         gc.setLineWidth(super.getThickness());
 
@@ -51,13 +50,12 @@ public class Piramide extends D3 {
         gc.strokeLine(x, y + largura, verticeX, verticeY); 
         gc.strokeLine(x + base, y + largura, verticeX, verticeY); 
 
-        gc.restore();
 
         if(isExibirArea()) {
             gc.setStroke(Color.BLACK);
             gc.setLineWidth(1);
             String volumeText = String.format("Volume: %.2f px³", volume());
-            String areaText = String.format("Area Superficial: %.2f px²", areaSuperficial());
+            String areaText = String.format("Area: %.2f px²", areaSuperficial());
             String perimetroText = String.format("Perimetro: %.2f px", perimetro());
             gc.strokeText(volumeText, x + base + 15, y + (largura/2));
             gc.strokeText(areaText, x + base + 15, y + (largura/2) + 15);
