@@ -6,11 +6,15 @@
 [![JavaFX](https://img.shields.io/badge/JavaFX-23%2B-blue)](https://openjfx.io/)
 [![wakatime](https://wakatime.com/badge/user/5a343522-23db-45ae-b20b-54655c392390/project/34a88cbe-b514-48b1-a919-c80c09189897.svg)](https://wakatime.com/badge/user/5a343522-23db-45ae-b20b-54655c392390/project/34a88cbe-b514-48b1-a919-c80c09189897)
 
+![PaintBrush Interface Inicial](https://github.com/StephanyeCunto/PaintBrush/blob/main/img/paintBrush.png?raw=true)
+*Interface do PaintBrush com a ferramenta lápis selecionada*
+
 ---
 
 ## Sumário 📑
 
 - [Funcionalidades 🛠️](#funcionalidades-)
+- [Exemplos de Uso 📸](#exemplos-de-uso-)
 - [Diagrama de Classes 📊](#diagrama-de-classes-)
 - [Tecnologias Utilizadas 💻](#tecnologias-utilizadas-)
 - [Como Executar o Projeto 🚀](#como-executar-o-projeto-)
@@ -60,6 +64,22 @@ O **PaintBrush** oferece uma série de funcionalidades interativas e automática
 - **Desenho Interativo**: As formas geométricas podem ser desenhadas diretamente na interface gráfica.
 - **Cálculos Automáticos**: Cada forma tem cálculos automáticos de área, perímetro e volume.
 - **Personalização de Cores e Tamanho**: As formas podem ser personalizadas em termos de cor e tamanho diretamente na interface.
+
+---
+
+## Exemplos de Uso 📸
+
+Abaixo estão alguns exemplos do PaintBrush em ação:
+
+### Desenho de Formas 2D
+
+![Desenho de Círculo](https://github.com/StephanyeCunto/PaintBrush/blob/main/img/figura2D.png?raw=true)
+*Desenho de um círculo vermelho com cálculo automático de área e perímetro*
+
+### Desenho de Formas 3D
+
+![Desenho de Pirâmide](https://github.com/StephanyeCunto/PaintBrush/blob/main/img/figura3D.png?raw=true)
+*Pirâmide 3D com cálculos automáticos de volume e área superficial*
 
 ---
 
@@ -355,14 +375,24 @@ O projeto está organizado da seguinte forma:
 PaintBrush/
 ├── src/
 │   ├── main/
-│   │   ├── java/ # Código-fonte Java
-│   │   │   ├── com/example/
-│   │   │   │   ├── App.java # Classe principal
-│   │   │   │   ├── models/ # Classes das formas geométricas
-│   │   │   │   └── views/ # Classes de interface gráfica
-│   │   └── resources/ # Recursos como CSS, imagens, etc.
-├── pom.xml # Arquivo de configuração do Maven
-
+│   │   ├── java/
+│   │   │   └── com/example/
+│   │   │       ├── App.java                 # Classe principal
+│   │   │       ├── models/                  # Classes de domínio
+│   │   │       │   ├── Ponto.java           # Forma base
+│   │   │       │   ├── D2.java              # Abstração 2D
+│   │   │       │   ├── D3.java              # Abstração 3D
+│   │   │       │   ├── Circulo.java         # Forma circular
+│   │   │       │   ├── Retangulo.java       # Forma retangular
+│   │   │       │   ├── Cilindro.java        # Cilindro 3D
+│   │   │       │   └── Piramide.java        # Pirâmide 3D
+│   │   │       └── views/                   # Interface gráfica
+│   │   │           └── PaintBrush.java      # Controlador principal
+│   │   └── resources/                       # Recursos
+│   │       ├── style.css                    # Estilos da interface
+│   │       └── paintbrush.fxml              # Layout da interface
+├── pom.xml                                  # Configuração Maven
+└── README.md                                # Esta documentação
 ```
 ### Descrição das Pastas e Arquivos
 
@@ -408,3 +438,6 @@ A Licença MIT é uma licença permissiva de código aberto que permite que voc�
 
 - **Aviso de Copyright e Isenção de Responsabilidade**: O código, quando redistribuído, deve incluir o aviso de copyright original e a isenção de responsabilidade, sem alterações.
 
+---
+
+Desenvolvido como projeto acadêmico © 2025
